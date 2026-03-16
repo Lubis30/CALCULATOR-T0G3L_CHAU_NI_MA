@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculator Lubis</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0a0e1a;
+  --navy2:#0d1224;
+  --navy3:#111827;
+  --navy4:#1a2035;
+  --navy5:#1e2640;
+  --gold:#f5c518;
+  --gold2:#e6b800;
+  --gold3:#ffd700;
+  --blue-accent:#1e6fff;
+  --blue-bright:#3d8bff;
+  --text:#c8d6f0;
+  --text-dim:#7a8aaa;
+  --border:#1f2d4a;
+  --border-glow:rgba(245,197,24,0.3);
+}
+html,body{min-height:100vh;background:var(--navy);color:var(--text);font-family:'Barlow Condensed',sans-serif}
+body{overflow-x:hidden}
+
+/* NAVBAR */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:linear-gradient(180deg,rgba(10,14,26,0.98) 0%,rgba(10,14,26,0.9) 100%);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;height:52px;
+  backdrop-filter:blur(8px);
+}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;letter-spacing:2px;color:#fff}
+.nav-logo .crown{font-size:20px}
+.nav-logo span{color:var(--gold);text-transform:uppercase}
+.nav-clock{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;color:var(--gold);letter-spacing:3px}
+
+/* MAIN */
+.main{padding-top:70px;min-height:100vh}
+
+/* PASARAN SECTION */
+.pasaran-section{background:var(--navy2);border-bottom:1px solid var(--border);padding:18px 28px}
+.section-label{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;margin-bottom:12px}
+.section-label .icon{color:var(--gold);font-size:14px}
+.select-wrap{position:relative}
+.select-wrap select{
+  width:100%;padding:14px 20px;
+  background:var(--navy3);
+  border:1px solid var(--border);
+  border-radius:6px;
+  color:#fff;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:16px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;
+  appearance:none;cursor:pointer;outline:none;
+  transition:border-color .2s;
+}
+.select-wrap select:hover{border-color:var(--gold)}
+.select-wrap select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(245,197,24,.15)}
+.select-arrow{position:absolute;right:18px;top:50%;transform:translateY(-50%);color:var(--gold);pointer-events:none;font-size:14px}
+
+/* TABS */
+.tabs-wrap{background:var(--navy2);padding:0 28px;border-bottom:1px solid var(--border);display:flex;gap:0}
+.tab-btn{
+  padding:12px 22px;font-family:'Barlow Condensed',sans-serif;
+  font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text-dim);background:transparent;border:none;cursor:pointer;
+  border-bottom:2px solid transparent;transition:all .2s;
+}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* CARDS GRID */
+.cards-section{padding:20px 28px}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+
+/* CARD */
+.calc-card{
+  background:var(--navy4);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:18px 18px 16px;
+  transition:border-color .2s,box-shadow .2s;
+  position:relative;overflow:hidden;
+}
+.calc-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity .2s;
+}
+.calc-card:hover{border-color:rgba(245,197,24,.4);box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.calc-card:hover::before{opacity:1}
+
+.card-title{
+  font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:6px;
+}
+.card-meta{font-size:12px;color:var(--text-dim);letter-spacing:1px;margin-bottom:14px}
+.card-meta span{color:#aab8d0}
+
+.input-row{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.input-label{font-size:11px;color:var(--text-dim);letter-spacing:1px;white-space:nowrap;min-width:60px}
+.bet-input{
+  flex:1;padding:9px 12px;
+  background:var(--navy3);border:1px solid var(--border);border-radius:5px;
+  color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:500;
+  outline:none;transition:border-color .2s;
+}
+.bet-input:focus{border-color:var(--gold)}
+.bet-input::placeholder{color:var(--text-dim)}
+
+.card-btns{display:flex;gap:8px}
+.btn-hitung{
+  flex:1;padding:10px;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  border:none;border-radius:5px;
+  color:var(--navy);font-family:'Barlow Condensed',sans-serif;
+  font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;transition:all .15s;
+}
+.btn-hitung:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn-hitung:active{transform:translateY(0)}
+.btn-reset{
+  padding:10px 16px;
+  background:transparent;border:1px solid var(--border);border-radius:5px;
+  color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;
+  font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;transition:all .15s;
+}
+.btn-reset:hover{border-color:var(--text-dim);color:var(--text)}
+
+/* MODAL */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:1000;
+  background:rgba(5,8,18,.8);backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;
+}
+.modal-overlay.show{display:flex}
+.modal-box{
+  background:linear-gradient(160deg,#141c32 0%,#0d1224 100%);
+  border:1px solid rgba(245,197,24,.25);
+  border-radius:16px;
+  padding:32px 28px 28px;
+  width:90%;max-width:460px;
+  position:relative;
+  box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 40px rgba(245,197,24,.08);
+}
+.modal-close{
+  position:absolute;top:14px;right:14px;
+  width:30px;height:30px;border-radius:50%;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  color:var(--text-dim);font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;
+}
+.modal-close:hover{background:rgba(255,255,255,.15);color:#fff}
+.modal-header{text-align:center;margin-bottom:20px}
+.modal-crown{font-size:28px;margin-bottom:6px}
+.modal-subtitle{font-size:11px;letter-spacing:4px;color:var(--text-dim);text-transform:uppercase;margin-bottom:4px}
+.modal-deco{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--text-dim);font-size:10px;margin-bottom:2px}
+.modal-title{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:900;color:var(--gold);letter-spacing:3px;text-transform:uppercase}
+.modal-type-badge{
+  display:inline-block;margin:16px 0 0;
+  padding:8px 24px;border:1px solid rgba(245,197,24,.3);border-radius:4px;
+  font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  color:var(--text);background:rgba(245,197,24,.06);
+  width:100%;text-align:center;
+}
+.modal-desc{
+  margin:14px 0;padding:14px 16px;
+  background:rgba(255,255,255,.04);border-radius:8px;
+  font-size:14px;line-height:1.7;color:var(--text-dim);
+}
+.modal-desc strong{color:#fff;font-weight:600}
+.modal-desc .highlight{color:var(--gold);font-weight:700}
+.modal-copy-row{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.modal-copy-label{font-size:11px;color:var(--text-dim);letter-spacing:2px}
+.btn-salin{
+  padding:6px 14px;background:transparent;
+  border:1px solid var(--border);border-radius:4px;
+  color:var(--text-dim);font-size:11px;letter-spacing:1px;
+  cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;
+}
+.btn-salin:hover{border-color:var(--gold);color:var(--gold)}
+.modal-results{margin:12px 0}
+.result-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;border-radius:6px;margin-bottom:6px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);
+}
+.result-row-label{font-size:13px;color:var(--text-dim);letter-spacing:1px}
+.result-row-value{font-size:16px;font-weight:700;color:var(--blue-bright)}
+.result-row-value.win{color:var(--gold)}
+.btn-tutup{
+  width:100%;padding:13px;margin-top:8px;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  border:none;border-radius:8px;
+  color:var(--navy);font-family:'Barlow Condensed',sans-serif;
+  font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  cursor:pointer;transition:all .15s;
+}
+.btn-tutup:hover{filter:brightness(1.1)}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--navy)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* SECTION HEADER */
+.section-header{
+  font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  color:var(--text-dim);padding:10px 0 8px;border-bottom:1px solid var(--border);
+  margin-bottom:14px;display:flex;align-items:center;gap:8px;
+}
+.section-header::before{content:'';width:3px;height:14px;background:var(--gold);border-radius:2px}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.calc-card{animation:fadeIn .3s ease both}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-logo">
+    <span class="crown">♛</span>
+    <span>Calculator Lubis</span>
+  </div>
+  <div class="nav-clock" id="clock">00:00:00</div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- PASARAN -->
+  <div class="pasaran-section">
+    <div class="section-label"><span class="icon">👤</span> Pilih Pasaran</div>
+    <div class="select-wrap">
+      <select id="pasaranSelect" onchange="updatePasaran()">
+        <option value="">— Pilih Pasaran Togel —</option>
+        <option value="TOTO MACAU 4D" selected>TOTO MACAU 4D</option>
+        <option value="TOTO MACAU 5D">TOTO MACAU 5D</option>
+        <option value="KINGKONG">KINGKONG</option>
+        <option value="BANGKOK">BANGKOK</option>
+        <option value="BRUNEI">BRUNEI</option>
+        <option value="CHELSEA">CHELSEA</option>
+        <option value="HONGKONG">HONGKONG</option>
+        <option value="HUAHIN">HUAHIN</option>
+        <option value="MAGNUM4D">MAGNUM4D</option>
+        <option value="NEVADA">NEVADA</option>
+        <option value="POIPET">POIPET</option>
+        <option value="SYDNEY">SYDNEY</option>
+        <option value="TOTO CAMBODIA">TOTO CAMBODIA</option>
+        <option value="TOTOMALI">TOTOMALI</option>
+        <option value="BULLSEYE">BULLSEYE</option>
+        <option value="CALIFORNIA">CALIFORNIA</option>
+        <option value="CAROLINA EVE">CAROLINA EVE</option>
+        <option value="CAROLINA DAY">CAROLINA DAY</option>
+        <option value="FLORIDA EVE">FLORIDA EVE</option>
+      </select>
+      <span class="select-arrow">▼</span>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs-wrap">
+    <button class="tab-btn active" onclick="switchTab('diskon',this)">Diskon</button>
+    <button class="tab-btn" onclick="switchTab('betfull',this)">Bet Full</button>
+    <button class="tab-btn" onclick="switchTab('tepat',this)">Tepat &amp; BB</button>
+    <button class="tab-btn" onclick="switchTab('lainnya',this)">Lainnya</button>
+  </div>
+
+  <!-- CARDS -->
+  <div class="cards-section">
+
+    <!-- DISKON TAB -->
+    <div id="tab-diskon" class="tab-content">
+      <div class="cards-grid" id="grid-diskon"></div>
+    </div>
+
+    <!-- BET FULL TAB -->
+    <div id="tab-betfull" class="tab-content" style="display:none">
+      <div class="cards-grid" id="grid-betfull"></div>
+    </div>
+
+    <!-- TEPAT TAB -->
+    <div id="tab-tepat" class="tab-content" style="display:none">
+      <div class="cards-grid" id="grid-tepat"></div>
+    </div>
+
+    <!-- LAINNYA TAB -->
+    <div id="tab-lainnya" class="tab-content" style="display:none">
+      <div class="cards-grid" id="grid-lainnya"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOut(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-header">
+      <div class="modal-crown">♛</div>
+      <div class="modal-deco">✦ &nbsp;<span class="modal-subtitle">Hasil Perhitungan</span>&nbsp; ✦</div>
+      <div class="modal-title" id="modalTitle">TOTO MACAU 4D</div>
+    </div>
+    <div class="modal-type-badge" id="modalType">DISKON 4D</div>
+    <div class="modal-desc" id="modalDesc"></div>
+    <div class="modal-copy-row">
+      <span class="modal-copy-label">✦ Kalimat Hasil</span>
+      <button class="btn-salin" onclick="salinHasil()">📋 SALIN</button>
+    </div>
+    <div class="modal-results">
+      <div class="result-row">
+        <span class="result-row-label">Bayar (setelah diskon)</span>
+        <span class="result-row-value" id="modalBayar">Rp 0</span>
+      </div>
+      <div class="result-row">
+        <span class="result-row-label">Menang (jika tembus)</span>
+        <span class="result-row-value win" id="modalMenang">Rp 0</span>
+      </div>
+    </div>
+    <button class="btn-tutup" onclick="closeModal()">✦ TUTUP</button>
+  </div>
+</div>
+
+<script>
+// --- CLOCK ---
+function updateClock(){
+  const now=new Date();
+  const pad=n=>String(n).padStart(2,'0');
+  document.getElementById('clock').textContent=`${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+}
+setInterval(updateClock,1000);updateClock();
+
+// --- DATA ---
+const CARDS = {
+  diskon:[
+    {id:'d5d',title:'DISKON 5D',diskon:38,hadiah:50000,multi:false},
+    {id:'d4d',title:'DISKON 4D',diskon:20,hadiah:7000,multi:false},
+    {id:'d3d',title:'DISKON 3D',diskon:20,hadiah:750,multi:false},
+    {id:'d2d',title:'DISKON 2D',diskon:20,hadiah:75,multi:false},
+  ],
+  betfull:[
+    {id:'bf5d',title:'BET FULL 5D',diskon:0,hadiah:88000,multi:false},
+    {id:'bf4d',title:'BET FULL 4D',diskon:0,hadiah:10000,multi:false},
+    {id:'bf3d',title:'BET FULL 3D',diskon:0,hadiah:1000,multi:false},
+    {id:'bf2d',title:'BET FULL 2D',diskon:0,hadiah:100,multi:false},
+  ],
+  tepat:[
+    {id:'t5d',title:'5D TEPAT',diskon:0,hadiah:50000,multi:false},
+    {id:'bb5d',title:'5D BB',diskon:0,hadiah:350,multi:false},
+    {id:'t4d',title:'4D TEPAT',diskon:0,hadiah:5000,multi:false},
+    {id:'bb4d',title:'4D BB',diskon:0,hadiah:180,multi:false},
+    {id:'t3d',title:'3D TEPAT',diskon:0,hadiah:500,multi:false},
+    {id:'bb3d',title:'3D BB',diskon:0,hadiah:75,multi:false},
+    {id:'t2d',title:'2D TEPAT',diskon:0,hadiah:80,multi:false},
+    {id:'bb2d',title:'2D BB',diskon:0,hadiah:15,multi:false},
+  ],
+  lainnya:[
+    {id:'cb',title:'Colok Bebas',diskon:6,hadiah:0.9,multi:false},
+    {id:'cb2d2',title:'Colok Bebas 2D(2)',diskon:10,hadiah:4,multi:false},
+    {id:'cb2d3',title:'Colok Bebas 2D(3)',diskon:10,hadiah:6,multi:false},
+    {id:'cb2d4',title:'Colok Bebas 2D(4)',diskon:10,hadiah:20,multi:false},
+    {id:'cb2d5',title:'Colok Bebas 2D(5)',diskon:10,hadiah:200,multi:false},
+    {id:'cb4d4',title:'Colok Bebas 4D(4)',diskon:10,hadiah:50,multi:false},
+    {id:'cb4d5',title:'Colok Bebas 4D(5)',diskon:10,hadiah:200,multi:false},
+    {id:'cn3',title:'Colok Naga(3)',diskon:10,hadiah:12,multi:false},
+    {id:'cn4',title:'Colok Naga(4)',diskon:10,hadiah:30,multi:false},
+    {id:'cn5',title:'Colok Naga(5)',diskon:10,hadiah:125,multi:false},
+    {id:'cj',title:'Colok Jitu',diskon:6,hadiah:8,multi:false},
+    {id:'tt',title:'Tengah Tepi',diskon:2,hadiah:null,kei:-2.2,multi:false},
+    {id:'dgk',title:'Dasar GENAP - KECIL',diskon:2,hadiah:null,kei:10,multi:false},
+    {id:'dgb',title:'Dasar GANJIL - BESAR',diskon:2,hadiah:null,kei:-25,multi:false},
+    {id:'5050',title:'50 - 50',diskon:2,hadiah:null,kei:-2.2,multi:false},
+    {id:'shio',title:'Shio',diskon:5,hadiah:9.5,multi:false},
+    {id:'kom',title:'Kombinasi',diskon:8,hadiah:2.7,multi:false},
+  ]
+};
+
+let currentPasaran='TOTO MACAU 4D';
+let modalData={};
+
+function updatePasaran(){
+  const v=document.getElementById('pasaranSelect').value;
+  if(v) currentPasaran=v;
+}
+
+// --- RENDER CARDS ---
+function renderCards(tab, gridId){
+  const grid=document.getElementById(gridId);
+  grid.innerHTML='';
+  CARDS[tab].forEach((c,i)=>{
+    const meta = c.hadiah!==null
+      ? `Diskon: <span>${c.diskon}%</span> | Hadiah: <span>x${c.hadiah}</span>`
+      : `Diskon: <span>${c.diskon}%</span> | Kei: <span>${c.kei}%</span>`;
+    const card=document.createElement('div');
+    card.className='calc-card';
+    card.style.animationDelay=(i*0.04)+'s';
+    card.innerHTML=`
+      <div class="card-title">${c.title}</div>
+      <div class="card-meta">${meta}</div>
+      <div class="input-row">
+        <span class="input-label">Nominal</span>
+        <input class="bet-input" type="number" id="inp-${c.id}" placeholder="Masukkan nominal..." min="1">
+      </div>
+      <div class="card-btns">
+        <button class="btn-hitung" onclick="hitung('${c.id}','${tab}')">✦ HITUNG</button>
+        <button class="btn-reset" onclick="resetCard('${c.id}')">RESET</button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+renderCards('diskon','grid-diskon');
+renderCards('betfull','grid-betfull');
+renderCards('tepat','grid-tepat');
+renderCards('lainnya','grid-lainnya');
+
+// --- TAB SWITCH ---
+function switchTab(tab, btn){
+  document.querySelectorAll('.tab-content').forEach(el=>el.style.display='none');
+  document.querySelectorAll('.tab-btn').forEach(el=>el.classList.remove('active'));
+  document.getElementById('tab-'+tab).style.display='block';
+  btn.classList.add('active');
+}
+
+// --- HITUNG ---
+function hitung(id, tab){
+  const card=CARDS[tab].find(c=>c.id===id);
+  if(!card)return;
+  const input=document.getElementById('inp-'+id);
+  const bet=parseFloat(input.value);
+  if(!bet||bet<=0){input.focus();input.style.borderColor='#e24b4a';setTimeout(()=>input.style.borderColor='',800);return;}
+
+  const diskonAmt = bet*(card.diskon/100);
+  const bayar = bet - diskonAmt;
+  let menang=0, descHtml='';
+
+  if(card.hadiah!==null){
+    menang = bet * card.hadiah;
+    const tipe = card.kei!==undefined?'KEI':'DISKON';
+    descHtml=`Jika Anda memasang <strong>${card.title.replace('DISKON ','DISKON ').replace('BET FULL ','BET FULL ')}</strong> pada pasaran <strong>${currentPasaran}</strong> dengan nominal taruhan <strong>Rp ${fmt(bet)}</strong>, maka hadiah yang Anda dapatkan adalah <span class="highlight">Rp ${fmt(menang)}</span> (Diskon: ${card.diskon}% | Hadiah: x${card.hadiah}) <em>ya bosku</em>`;
+  } else {
+    // Kei based
+    menang = bayar + bayar*(Math.abs(card.kei)/100)*(card.kei>0?1:-1);
+    descHtml=`Jika Anda memasang <strong>${card.title}</strong> pada pasaran <strong>${currentPasaran}</strong> dengan nominal taruhan <strong>Rp ${fmt(bet)}</strong>, Kei yang berlaku adalah <span class="highlight">${card.kei}%</span> (Diskon: ${card.diskon}%) <em>ya bosku</em>`;
+  }
+
+  modalData={text:`Pasang ${card.title} pasaran ${currentPasaran} nominal Rp ${fmt(bet)}, bayar Rp ${fmt(bayar)}, menang Rp ${fmt(menang)}`};
+
+  document.getElementById('modalTitle').textContent=currentPasaran;
+  document.getElementById('modalType').textContent=card.title;
+  document.getElementById('modalDesc').innerHTML=descHtml;
+  document.getElementById('modalBayar').textContent='Rp '+fmt(bayar);
+  document.getElementById('modalMenang').textContent='Rp '+fmt(menang);
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function fmt(n){
+  return Math.round(n).toLocaleString('id-ID');
+}
+
+function resetCard(id){
+  const inp=document.getElementById('inp-'+id);
+  if(inp)inp.value='';
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+
+function closeModalOut(e){
+  if(e.target===document.getElementById('modalOverlay'))closeModal();
+}
+
+function salinHasil(){
+  if(navigator.clipboard&&modalData.text){
+    navigator.clipboard.writeText(modalData.text);
+    const btn=document.querySelector('.btn-salin');
+    const orig=btn.innerHTML;
+    btn.innerHTML='✓ TERSALIN';
+    btn.style.color='#3B6D11';
+    setTimeout(()=>{btn.innerHTML=orig;btn.style.color='';},1800);
+  }
+}
+
+// Enter to calculate
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeModal();
+});
+</script>
+</body>
+</html>
