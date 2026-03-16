@@ -589,37 +589,37 @@ function hitung(id,tabKey){
     pkHTML =
        `Jika anda melakukan type bettingan <span class="pk-type">${card.name}</span>`
       +` dengan <span class="pk-pct">Diskon : ${card.diskon}%</span>`
-      +` anda melakukan jumlah bettingan <span class="pk-bet">Rp ${fmt(bet)}</span>`
-      +` maka yang anda harus bayar dengan nominal <span class="pk-bayar">Rp ${fmt(bayar)}</span>`
+      +` anda melakukan jumlah bettingan <span class="pk-bet">${fmt(bet)}</span>`
+      +` maka yang anda bayar dengan <span class="pk-bayar">${fmt(bayar)}</span>`
       +` dan untuk perkaliannya <span class="pk-mult">Hadiah : x${card.hadiah}</span>`
       +` untuk hadiah yang anda dapatkan jika bettingan anda tepat anda mendapatkan`
-      +` <span class="pk-hadiah">Rp ${fmt(menang)}</span>`
-      +` <span class="pk-bosku">ya bosku gass</span>`;
+      +` <span class="pk-hadiah">${fmt(menang)}</span>`
+      +` <span class="pk-bosku">ya bosku</span>`;
 
     pkPlain =
        `Jika anda melakukan type bettingan ${card.name} dengan Diskon : ${card.diskon}%`
-      +` anda melakukan jumlah bettingan Rp ${fmt(bet)}`
-      +` maka yang anda harus bayar dengan nominal Rp ${fmt(bayar)}`
+      +` anda melakukan jumlah bettingan ${fmt(bet)}`
+      +` maka yang anda bayar dengan ${fmt(bayar)}`
       +` dan untuk perkaliannya Hadiah : x${card.hadiah}`
-      +` untuk hadiah yang anda dapatkan jika bettingan anda tepat anda mendapatkan Rp ${fmt(menang)} ya bosku gass`;
+      +` untuk hadiah yang anda dapatkan jika bettingan anda tepat anda mendapatkan ${fmt(menang)} ya bosku`;
 
   } else {
     pkHTML =
        `Jika anda melakukan type bettingan <span class="pk-type">${card.name}</span>`
       +` dengan <span class="pk-pct">Diskon : ${card.diskon}%</span>`
-      +` anda melakukan jumlah bettingan <span class="pk-bet">Rp ${fmt(bet)}</span>`
-      +` maka yang anda harus bayar dengan nominal <span class="pk-bayar">Rp ${fmt(bayar)}</span>`
+      +` anda melakukan jumlah bettingan <span class="pk-bet">${fmt(bet)}</span>`
+      +` maka yang anda bayar dengan <span class="pk-bayar">${fmt(bayar)}</span>`
       +` dan untuk kei yang berlaku <span class="pk-mult">Kei : ${card.kei>0?'+':''}${card.kei}%</span>`
       +` maka hasil yang anda dapatkan adalah`
-      +` <span class="pk-hadiah">Rp ${fmt(menang)}</span>`
-      +` <span class="pk-bosku">ya bosku gass</span>`;
+      +` <span class="pk-hadiah">${fmt(menang)}</span>`
+      +` <span class="pk-bosku">ya bosku</span>`;
 
     pkPlain =
        `Jika anda melakukan type bettingan ${card.name} dengan Diskon : ${card.diskon}%`
-      +` anda melakukan jumlah bettingan Rp ${fmt(bet)}`
-      +` maka yang anda harus bayar dengan nominal Rp ${fmt(bayar)}`
+      +` anda melakukan jumlah bettingan ${fmt(bet)}`
+      +` maka yang anda bayar dengan ${fmt(bayar)}`
       +` dan untuk kei yang berlaku Kei : ${card.kei>0?'+':''}${card.kei}%`
-      +` maka hasil yang anda dapatkan adalah Rp ${fmt(menang)} ya bosku gass`;
+      +` maka hasil yang anda dapatkan adalah ${fmt(menang)} ya bosku`;
   }
 
   // Prepend pasaran if selected
