@@ -4,497 +4,450 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calculator Lubis</title>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --navy:#0a0e1a;
-  --navy2:#0d1224;
-  --navy3:#111827;
-  --navy4:#1a2035;
-  --navy5:#1e2640;
-  --gold:#f5c518;
-  --gold2:#e6b800;
-  --gold3:#ffd700;
-  --blue-accent:#1e6fff;
-  --blue-bright:#3d8bff;
-  --text:#c8d6f0;
-  --text-dim:#7a8aaa;
-  --border:#1f2d4a;
-  --border-glow:rgba(245,197,24,0.3);
+  --bg:#0c0f14;
+  --surface:#13171f;
+  --surface2:#191e28;
+  --surface3:#1f2535;
+  --border:#252c3a;
+  --border2:#2e3848;
+  --gold:#e8a020;
+  --gold2:#f5b340;
+  --gold-dim:rgba(232,160,32,0.12);
+  --gold-border:rgba(232,160,32,0.28);
+  --green:#22c55e;
+  --blue:#4f8ef7;
+  --text:#e2e8f4;
+  --text2:#8896ae;
+  --text3:#525f75;
+  --red:#e05252;
 }
-html,body{min-height:100vh;background:var(--navy);color:var(--text);font-family:'Barlow Condensed',sans-serif}
-body{overflow-x:hidden}
+html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px}
 
-/* NAVBAR */
-.navbar{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  background:linear-gradient(180deg,rgba(10,14,26,0.98) 0%,rgba(10,14,26,0.9) 100%);
-  border-bottom:1px solid var(--border);
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(12,15,20,0.96);border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 28px;height:52px;
-  backdrop-filter:blur(8px);
+  padding:0 20px;height:48px;backdrop-filter:blur(8px);
 }
-.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;letter-spacing:2px;color:#fff}
-.nav-logo .crown{font-size:20px}
-.nav-logo span{color:var(--gold);text-transform:uppercase}
-.nav-clock{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;color:var(--gold);letter-spacing:3px}
+.brand{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#fff}
+.brand-icon{color:var(--gold);font-size:18px}
+.brand b{color:var(--gold)}
+.brand span{color:var(--text2);font-weight:400}
+.clock{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:var(--text3);letter-spacing:2px;
+  background:var(--surface2);padding:4px 10px;border-radius:5px;border:1px solid var(--border)}
 
-/* MAIN */
-.main{padding-top:70px;min-height:100vh}
+.layout{display:flex;height:calc(100vh - 48px)}
 
-/* PASARAN SECTION */
-.pasaran-section{background:var(--navy2);border-bottom:1px solid var(--border);padding:18px 28px}
-.section-label{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;margin-bottom:12px}
-.section-label .icon{color:var(--gold);font-size:14px}
-.select-wrap{position:relative}
-.select-wrap select{
-  width:100%;padding:14px 20px;
-  background:var(--navy3);
-  border:1px solid var(--border);
-  border-radius:6px;
-  color:#fff;
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:16px;font-weight:600;letter-spacing:2px;
-  text-transform:uppercase;
-  appearance:none;cursor:pointer;outline:none;
-  transition:border-color .2s;
-}
-.select-wrap select:hover{border-color:var(--gold)}
-.select-wrap select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(245,197,24,.15)}
-.select-arrow{position:absolute;right:18px;top:50%;transform:translateY(-50%);color:var(--gold);pointer-events:none;font-size:14px}
+/* SIDEBAR */
+.sidebar{width:220px;min-width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.sb-hdr{padding:11px 13px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.sb-hdr-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3)}
+.btn-deselect{padding:3px 8px;background:transparent;border:1px solid var(--border2);border-radius:4px;
+  color:var(--text3);font-size:9px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;
+  cursor:pointer;transition:all .12s;display:none}
+.btn-deselect.show{display:block}
+.btn-deselect:hover{border-color:var(--red);color:var(--red)}
+.sb-search{padding:8px 10px;border-bottom:1px solid var(--border)}
+.sb-search input{width:100%;padding:7px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;
+  color:var(--text);font-size:12px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s}
+.sb-search input:focus{border-color:var(--gold)}
+.sb-search input::placeholder{color:var(--text3)}
+.pasaran-list{flex:1;overflow-y:auto;padding:5px}
+.pasaran-item{padding:7px 10px;border-radius:5px;cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);
+  transition:all .12s;display:flex;align-items:center;gap:8px;margin-bottom:1px;user-select:none}
+.pasaran-item:hover{background:var(--surface2);color:var(--text)}
+.pasaran-item.active{background:var(--gold-dim);color:var(--gold);font-weight:600}
+.pasaran-item .dot{width:5px;height:5px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:background .12s}
+.pasaran-item.active .dot{background:var(--gold)}
+.no-results{padding:20px 12px;text-align:center;font-size:11px;color:var(--text3)}
 
-/* TABS */
-.tabs-wrap{background:var(--navy2);padding:0 28px;border-bottom:1px solid var(--border);display:flex;gap:0}
-.tab-btn{
-  padding:12px 22px;font-family:'Barlow Condensed',sans-serif;
-  font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
-  color:var(--text-dim);background:transparent;border:none;cursor:pointer;
-  border-bottom:2px solid transparent;transition:all .2s;
-}
-.tab-btn:hover{color:var(--text)}
-.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+/* CONTENT */
+.content{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.empty-wrap{flex:1;display:flex;align-items:center;justify-content:center}
+.empty-box{text-align:center;padding:40px 24px}
+.empty-icon{font-size:36px;opacity:.18;margin-bottom:14px}
+.empty-title{font-size:15px;font-weight:600;color:var(--text2);margin-bottom:6px}
+.empty-sub{font-size:12px;color:var(--text3);line-height:1.7}
 
-/* CARDS GRID */
-.cards-section{padding:20px 28px}
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.topbar{padding:10px 18px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0;display:flex;align-items:center;gap:10px}
+.topbar-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)}
+.pasaran-badge{background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);
+  padding:4px 12px;border-radius:4px;font-size:12px;font-weight:700;letter-spacing:.5px}
 
-/* CARD */
-.calc-card{
-  background:var(--navy4);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:18px 18px 16px;
-  transition:border-color .2s,box-shadow .2s;
-  position:relative;overflow:hidden;
-}
-.calc-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  opacity:0;transition:opacity .2s;
-}
-.calc-card:hover{border-color:rgba(245,197,24,.4);box-shadow:0 4px 20px rgba(0,0,0,.4)}
-.calc-card:hover::before{opacity:1}
+.tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface);padding:0 18px;flex-shrink:0}
+.tab{padding:9px 14px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  color:var(--text3);background:transparent;border:none;cursor:pointer;
+  border-bottom:2px solid transparent;transition:all .15s;font-family:'Inter',sans-serif}
+.tab:hover{color:var(--text2)}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
 
-.card-title{
-  font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  color:var(--gold);margin-bottom:6px;
-}
-.card-meta{font-size:12px;color:var(--text-dim);letter-spacing:1px;margin-bottom:14px}
-.card-meta span{color:#aab8d0}
+.cards-wrap{padding:14px 18px;flex:1}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:9px}
 
-.input-row{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-.input-label{font-size:11px;color:var(--text-dim);letter-spacing:1px;white-space:nowrap;min-width:60px}
-.bet-input{
-  flex:1;padding:9px 12px;
-  background:var(--navy3);border:1px solid var(--border);border-radius:5px;
-  color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:500;
-  outline:none;transition:border-color .2s;
-}
-.bet-input:focus{border-color:var(--gold)}
-.bet-input::placeholder{color:var(--text-dim)}
-
-.card-btns{display:flex;gap:8px}
-.btn-hitung{
-  flex:1;padding:10px;
-  background:linear-gradient(135deg,var(--gold2),var(--gold3));
-  border:none;border-radius:5px;
-  color:var(--navy);font-family:'Barlow Condensed',sans-serif;
-  font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  cursor:pointer;transition:all .15s;
-}
-.btn-hitung:hover{filter:brightness(1.1);transform:translateY(-1px)}
-.btn-hitung:active{transform:translateY(0)}
-.btn-reset{
-  padding:10px 16px;
-  background:transparent;border:1px solid var(--border);border-radius:5px;
-  color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;
-  font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
-  cursor:pointer;transition:all .15s;
-}
-.btn-reset:hover{border-color:var(--text-dim);color:var(--text)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:13px 14px;transition:border-color .15s,box-shadow .15s}
+.card:hover{border-color:var(--border2);box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+.card-name{font-size:13px;font-weight:700;color:var(--text)}
+.card-badge{font-size:9px;font-weight:700;letter-spacing:.5px;padding:2px 6px;border-radius:3px;background:var(--surface3);color:var(--text3);text-transform:uppercase}
+.card-info{font-size:11px;color:var(--text3);margin-bottom:10px;line-height:1.5}
+.card-info b{color:var(--text2)}
+.input-row{display:flex;gap:6px;align-items:stretch}
+.inp{flex:1;padding:8px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;
+  color:var(--text);font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s,background .15s;min-width:0}
+.inp:focus{border-color:var(--gold)}
+.inp::placeholder{color:var(--text3);font-size:12px}
+.inp::-webkit-outer-spin-button,.inp::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.inp[type=number]{-moz-appearance:textfield}
+.btn-calc{padding:8px 14px;background:var(--gold);border:none;border-radius:5px;color:#000;font-size:11px;
+  font-weight:700;letter-spacing:.5px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .12s;white-space:nowrap}
+.btn-calc:hover{background:var(--gold2);transform:translateY(-1px)}
+.btn-calc:active{transform:translateY(0)}
 
 /* MODAL */
-.modal-overlay{
-  display:none;position:fixed;inset:0;z-index:1000;
-  background:rgba(5,8,18,.8);backdrop-filter:blur(6px);
-  align-items:center;justify-content:center;
-}
-.modal-overlay.show{display:flex}
-.modal-box{
-  background:linear-gradient(160deg,#141c32 0%,#0d1224 100%);
-  border:1px solid rgba(245,197,24,.25);
-  border-radius:16px;
-  padding:32px 28px 28px;
-  width:90%;max-width:460px;
-  position:relative;
-  box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 40px rgba(245,197,24,.08);
-}
-.modal-close{
-  position:absolute;top:14px;right:14px;
-  width:30px;height:30px;border-radius:50%;
-  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
-  color:var(--text-dim);font-size:16px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .15s;
-}
-.modal-close:hover{background:rgba(255,255,255,.15);color:#fff}
-.modal-header{text-align:center;margin-bottom:20px}
-.modal-crown{font-size:28px;margin-bottom:6px}
-.modal-subtitle{font-size:11px;letter-spacing:4px;color:var(--text-dim);text-transform:uppercase;margin-bottom:4px}
-.modal-deco{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--text-dim);font-size:10px;margin-bottom:2px}
-.modal-title{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:900;color:var(--gold);letter-spacing:3px;text-transform:uppercase}
-.modal-type-badge{
-  display:inline-block;margin:16px 0 0;
-  padding:8px 24px;border:1px solid rgba(245,197,24,.3);border-radius:4px;
-  font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
-  color:var(--text);background:rgba(245,197,24,.06);
-  width:100%;text-align:center;
-}
-.modal-desc{
-  margin:14px 0;padding:14px 16px;
-  background:rgba(255,255,255,.04);border-radius:8px;
-  font-size:14px;line-height:1.7;color:var(--text-dim);
-}
-.modal-desc strong{color:#fff;font-weight:600}
-.modal-desc .highlight{color:var(--gold);font-weight:700}
-.modal-copy-row{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
-.modal-copy-label{font-size:11px;color:var(--text-dim);letter-spacing:2px}
-.btn-salin{
-  padding:6px 14px;background:transparent;
-  border:1px solid var(--border);border-radius:4px;
-  color:var(--text-dim);font-size:11px;letter-spacing:1px;
-  cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;
-}
-.btn-salin:hover{border-color:var(--gold);color:var(--gold)}
-.modal-results{margin:12px 0}
-.result-row{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:12px 16px;border-radius:6px;margin-bottom:6px;
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);
-}
-.result-row-label{font-size:13px;color:var(--text-dim);letter-spacing:1px}
-.result-row-value{font-size:16px;font-weight:700;color:var(--blue-bright)}
-.result-row-value.win{color:var(--gold)}
-.btn-tutup{
-  width:100%;padding:13px;margin-top:8px;
-  background:linear-gradient(135deg,var(--gold2),var(--gold3));
-  border:none;border-radius:8px;
-  color:var(--navy);font-family:'Barlow Condensed',sans-serif;
-  font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
-  cursor:pointer;transition:all .15s;
-}
-.btn-tutup:hover{filter:brightness(1.1)}
+.overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(5,7,14,.82);
+  backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:16px}
+.overlay.show{display:flex;animation:fadeIn .15s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:12px;
+  width:100%;max-width:430px;overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.03);
+  animation:slideUp .18s ease}
+@keyframes slideUp{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
 
-/* SCROLLBAR */
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:var(--navy)}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.modal-head{padding:14px 18px;border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-start;justify-content:space-between;background:var(--surface2)}
+.m-left{}
+.m-pasaran-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:4px}
+.m-pasaran-val{display:inline-block;background:var(--gold-dim);border:1px solid var(--gold-border);
+  color:var(--gold);padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:.5px}
+.m-type{font-size:17px;font-weight:700;color:var(--text);margin-top:7px}
+.btn-close{background:var(--surface3);border:1px solid var(--border2);border-radius:6px;
+  width:28px;height:28px;min-width:28px;color:var(--text3);cursor:pointer;font-size:13px;
+  display:flex;align-items:center;justify-content:center;transition:all .12s}
+.btn-close:hover{color:var(--text);border-color:rgba(255,255,255,.15)}
 
-/* SECTION HEADER */
-.section-header{
-  font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
-  color:var(--text-dim);padding:10px 0 8px;border-bottom:1px solid var(--border);
-  margin-bottom:14px;display:flex;align-items:center;gap:8px;
+.modal-body{padding:15px 18px 18px}
+
+/* PK sentence box */
+.pk-box{background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--gold);
+  border-radius:6px;padding:12px 14px;margin-bottom:13px;font-size:13px;color:var(--text2);line-height:1.7}
+.pk-box .pk-name{color:#fff;font-weight:700}
+.pk-box .pk-bet{color:var(--blue);font-weight:700}
+.pk-box .pk-menang{color:var(--green);font-weight:700}
+.pk-box .pk-mult{color:var(--text3);font-size:12px}
+.pk-box .pk-bosku{color:var(--gold);font-weight:700;font-style:italic}
+
+.result-rows{display:grid;gap:5px;margin-bottom:11px}
+.result-row{display:flex;align-items:center;justify-content:space-between;
+  background:var(--surface2);border-radius:6px;padding:10px 13px;border:1px solid var(--border)}
+.rr-label{font-size:11px;color:var(--text3);font-weight:500}
+.rr-val{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--text)}
+.rr-val.pay{color:var(--blue)}
+.rr-val.win{color:var(--green)}
+
+.copy-row{display:flex;align-items:center;gap:10px;background:var(--surface3);border:1px solid var(--border);
+  border-radius:6px;padding:9px 12px;margin-bottom:11px}
+.copy-txt{flex:1;font-size:11px;color:var(--text3);line-height:1.5;min-width:0;word-break:break-word}
+.btn-copy{flex-shrink:0;padding:5px 10px;background:transparent;border:1px solid var(--border2);border-radius:4px;
+  color:var(--text3);font-size:10px;font-weight:600;letter-spacing:.5px;font-family:'Inter',sans-serif;
+  cursor:pointer;transition:all .12s;white-space:nowrap}
+.btn-copy:hover{border-color:var(--gold);color:var(--gold)}
+.btn-copy.copied{border-color:var(--green);color:var(--green)}
+
+.btn-tutup{width:100%;padding:10px;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;
+  color:var(--text2);font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;font-family:'Inter',sans-serif;transition:all .12s}
+.btn-tutup:hover{border-color:var(--border);color:var(--text)}
+
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+@media(max-width:640px){
+  .sidebar{width:170px;min-width:170px}
+  .cards-grid{grid-template-columns:1fr}
 }
-.section-header::before{content:'';width:3px;height:14px;background:var(--gold);border-radius:2px}
-
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.calc-card{animation:fadeIn .3s ease both}
 </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <div class="nav-logo">
-    <span class="crown">♛</span>
-    <span>Calculator Lubis</span>
+<nav>
+  <div class="brand">
+    <span class="brand-icon">♛</span>
+    <b>Calculator</b>&nbsp;<span>Lubis</span>
   </div>
-  <div class="nav-clock" id="clock">00:00:00</div>
+  <div class="clock" id="clock">--:--:--</div>
 </nav>
 
-<!-- MAIN -->
-<div class="main">
-
-  <!-- PASARAN -->
-  <div class="pasaran-section">
-    <div class="section-label"><span class="icon">👤</span> Pilih Pasaran</div>
-    <div class="select-wrap">
-      <select id="pasaranSelect" onchange="updatePasaran()">
-        <option value="">— Pilih Pasaran Togel —</option>
-        <option value="TOTO MACAU 4D" selected>TOTO MACAU 4D</option>
-        <option value="TOTO MACAU 5D">TOTO MACAU 5D</option>
-        <option value="KINGKONG">KINGKONG</option>
-        <option value="BANGKOK">BANGKOK</option>
-        <option value="BRUNEI">BRUNEI</option>
-        <option value="CHELSEA">CHELSEA</option>
-        <option value="HONGKONG">HONGKONG</option>
-        <option value="HUAHIN">HUAHIN</option>
-        <option value="MAGNUM4D">MAGNUM4D</option>
-        <option value="NEVADA">NEVADA</option>
-        <option value="POIPET">POIPET</option>
-        <option value="SYDNEY">SYDNEY</option>
-        <option value="TOTO CAMBODIA">TOTO CAMBODIA</option>
-        <option value="TOTOMALI">TOTOMALI</option>
-        <option value="BULLSEYE">BULLSEYE</option>
-        <option value="CALIFORNIA">CALIFORNIA</option>
-        <option value="CAROLINA EVE">CAROLINA EVE</option>
-        <option value="CAROLINA DAY">CAROLINA DAY</option>
-        <option value="FLORIDA EVE">FLORIDA EVE</option>
-      </select>
-      <span class="select-arrow">▼</span>
+<div class="layout">
+  <div class="sidebar">
+    <div class="sb-hdr">
+      <span class="sb-hdr-label">Pasaran</span>
+      <button class="btn-deselect" id="btnDeselect" onclick="deselectPasaran()">✕ Hapus</button>
     </div>
+    <div class="sb-search">
+      <input type="text" id="searchInput" placeholder="Cari pasaran..." oninput="filterPasaran()">
+    </div>
+    <div class="pasaran-list" id="pasaranList"></div>
   </div>
 
-  <!-- TABS -->
-  <div class="tabs-wrap">
-    <button class="tab-btn active" onclick="switchTab('diskon',this)">Diskon</button>
-    <button class="tab-btn" onclick="switchTab('betfull',this)">Bet Full</button>
-    <button class="tab-btn" onclick="switchTab('tepat',this)">Tepat &amp; BB</button>
-    <button class="tab-btn" onclick="switchTab('lainnya',this)">Lainnya</button>
-  </div>
-
-  <!-- CARDS -->
-  <div class="cards-section">
-
-    <!-- DISKON TAB -->
-    <div id="tab-diskon" class="tab-content">
-      <div class="cards-grid" id="grid-diskon"></div>
-    </div>
-
-    <!-- BET FULL TAB -->
-    <div id="tab-betfull" class="tab-content" style="display:none">
-      <div class="cards-grid" id="grid-betfull"></div>
-    </div>
-
-    <!-- TEPAT TAB -->
-    <div id="tab-tepat" class="tab-content" style="display:none">
-      <div class="cards-grid" id="grid-tepat"></div>
-    </div>
-
-    <!-- LAINNYA TAB -->
-    <div id="tab-lainnya" class="tab-content" style="display:none">
-      <div class="cards-grid" id="grid-lainnya"></div>
-    </div>
-
-  </div>
+  <div class="content" id="mainContent"></div>
 </div>
 
 <!-- MODAL -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModalOut(event)">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="modal-header">
-      <div class="modal-crown">♛</div>
-      <div class="modal-deco">✦ &nbsp;<span class="modal-subtitle">Hasil Perhitungan</span>&nbsp; ✦</div>
-      <div class="modal-title" id="modalTitle">TOTO MACAU 4D</div>
-    </div>
-    <div class="modal-type-badge" id="modalType">DISKON 4D</div>
-    <div class="modal-desc" id="modalDesc"></div>
-    <div class="modal-copy-row">
-      <span class="modal-copy-label">✦ Kalimat Hasil</span>
-      <button class="btn-salin" onclick="salinHasil()">📋 SALIN</button>
-    </div>
-    <div class="modal-results">
-      <div class="result-row">
-        <span class="result-row-label">Bayar (setelah diskon)</span>
-        <span class="result-row-value" id="modalBayar">Rp 0</span>
+<div class="overlay" id="overlay" onclick="closeOutside(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="m-left">
+        <div class="m-pasaran-lbl">Pasaran</div>
+        <div class="m-pasaran-val" id="mPasaran">—</div>
+        <div class="m-type" id="mType">—</div>
       </div>
-      <div class="result-row">
-        <span class="result-row-label">Menang (jika tembus)</span>
-        <span class="result-row-value win" id="modalMenang">Rp 0</span>
-      </div>
+      <button class="btn-close" onclick="closeModal()">✕</button>
     </div>
-    <button class="btn-tutup" onclick="closeModal()">✦ TUTUP</button>
+    <div class="modal-body">
+      <div class="pk-box" id="pkBox"></div>
+      <div class="result-rows">
+        <div class="result-row">
+          <span class="rr-label">Nominal Taruhan</span>
+          <span class="rr-val" id="mBet">—</span>
+        </div>
+        <div class="result-row" id="rowBayar">
+          <span class="rr-label">Bayar (setelah diskon)</span>
+          <span class="rr-val pay" id="mBayar">—</span>
+        </div>
+        <div class="result-row">
+          <span class="rr-label">Hadiah (jika tembus)</span>
+          <span class="rr-val win" id="mMenang">—</span>
+        </div>
+      </div>
+      <div class="copy-row">
+        <span class="copy-txt" id="mCopyText"></span>
+        <button class="btn-copy" id="btnCopy" onclick="salin()">SALIN</button>
+      </div>
+      <button class="btn-tutup" onclick="closeModal()">TUTUP</button>
+    </div>
   </div>
 </div>
 
 <script>
-// --- CLOCK ---
-function updateClock(){
-  const now=new Date();
-  const pad=n=>String(n).padStart(2,'0');
-  document.getElementById('clock').textContent=`${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
-}
-setInterval(updateClock,1000);updateClock();
+(function tick(){
+  const p=n=>String(n).padStart(2,'0'),n=new Date();
+  document.getElementById('clock').textContent=`${p(n.getHours())}:${p(n.getMinutes())}:${p(n.getSeconds())}`;
+  setTimeout(tick,1000);
+})();
 
-// --- DATA ---
-const CARDS = {
-  diskon:[
-    {id:'d5d',title:'DISKON 5D',diskon:38,hadiah:50000,multi:false},
-    {id:'d4d',title:'DISKON 4D',diskon:20,hadiah:7000,multi:false},
-    {id:'d3d',title:'DISKON 3D',diskon:20,hadiah:750,multi:false},
-    {id:'d2d',title:'DISKON 2D',diskon:20,hadiah:75,multi:false},
-  ],
-  betfull:[
-    {id:'bf5d',title:'BET FULL 5D',diskon:0,hadiah:88000,multi:false},
-    {id:'bf4d',title:'BET FULL 4D',diskon:0,hadiah:10000,multi:false},
-    {id:'bf3d',title:'BET FULL 3D',diskon:0,hadiah:1000,multi:false},
-    {id:'bf2d',title:'BET FULL 2D',diskon:0,hadiah:100,multi:false},
-  ],
-  tepat:[
-    {id:'t5d',title:'5D TEPAT',diskon:0,hadiah:50000,multi:false},
-    {id:'bb5d',title:'5D BB',diskon:0,hadiah:350,multi:false},
-    {id:'t4d',title:'4D TEPAT',diskon:0,hadiah:5000,multi:false},
-    {id:'bb4d',title:'4D BB',diskon:0,hadiah:180,multi:false},
-    {id:'t3d',title:'3D TEPAT',diskon:0,hadiah:500,multi:false},
-    {id:'bb3d',title:'3D BB',diskon:0,hadiah:75,multi:false},
-    {id:'t2d',title:'2D TEPAT',diskon:0,hadiah:80,multi:false},
-    {id:'bb2d',title:'2D BB',diskon:0,hadiah:15,multi:false},
-  ],
-  lainnya:[
-    {id:'cb',title:'Colok Bebas',diskon:6,hadiah:0.9,multi:false},
-    {id:'cb2d2',title:'Colok Bebas 2D(2)',diskon:10,hadiah:4,multi:false},
-    {id:'cb2d3',title:'Colok Bebas 2D(3)',diskon:10,hadiah:6,multi:false},
-    {id:'cb2d4',title:'Colok Bebas 2D(4)',diskon:10,hadiah:20,multi:false},
-    {id:'cb2d5',title:'Colok Bebas 2D(5)',diskon:10,hadiah:200,multi:false},
-    {id:'cb4d4',title:'Colok Bebas 4D(4)',diskon:10,hadiah:50,multi:false},
-    {id:'cb4d5',title:'Colok Bebas 4D(5)',diskon:10,hadiah:200,multi:false},
-    {id:'cn3',title:'Colok Naga(3)',diskon:10,hadiah:12,multi:false},
-    {id:'cn4',title:'Colok Naga(4)',diskon:10,hadiah:30,multi:false},
-    {id:'cn5',title:'Colok Naga(5)',diskon:10,hadiah:125,multi:false},
-    {id:'cj',title:'Colok Jitu',diskon:6,hadiah:8,multi:false},
-    {id:'tt',title:'Tengah Tepi',diskon:2,hadiah:null,kei:-2.2,multi:false},
-    {id:'dgk',title:'Dasar GENAP - KECIL',diskon:2,hadiah:null,kei:10,multi:false},
-    {id:'dgb',title:'Dasar GANJIL - BESAR',diskon:2,hadiah:null,kei:-25,multi:false},
-    {id:'5050',title:'50 - 50',diskon:2,hadiah:null,kei:-2.2,multi:false},
-    {id:'shio',title:'Shio',diskon:5,hadiah:9.5,multi:false},
-    {id:'kom',title:'Kombinasi',diskon:8,hadiah:2.7,multi:false},
-  ]
+const ALL_PASARAN=[
+  "BANGKOK","BANGKOK 0130","BANGKOK 0930",
+  "BRUNEI","BRUNEI02","BRUNEI14","BRUNEI21",
+  "BULLSEYE","CALIFORNIA",
+  "CAROLINA DAY","CAROLINA EVE","CAROLINA EVENING",
+  "CHELSEA","CHELSEA11","CHELSEA15","CHELSEA19","CHELSEA21",
+  "FLORIDA EVE","FLORIDA EVENING","FLORIDA MIDDAY",
+  "HOKI DRAW","HONGKONG","HONGKONG LOTTO",
+  "HUAHIN","HUAHIN0100","HUAHIN1630","HUAHIN2100",
+  "KENTUCKY EVENING","KENTUCKY MIDDAY",
+  "KING KONG4D MALAM","KING KONG4D SORE","KINGKONG",
+  "MAGNUM4D","NEVADA",
+  "NEW YORK EVENING","NEW YORK MIDDAY",
+  "NORTH CAROLINA DAY",
+  "OREGON 03","OREGON 06","OREGON 09","OREGON 12",
+  "PCSO",
+  "POIPET12","POIPET15","POIPET19","POIPET22",
+  "SINGAPORE","SYDNEY","SYDNEY LOTTO",
+  "TOTO CAMBODIA","TOTO CAMBODIA LIVE",
+  "TOTO MACAU 4D","TOTO MACAU 5D",
+  "TOTO MACAU MALAM 1","TOTO MACAU MALAM 2","TOTO MACAU MALAM 3",
+  "TOTO MACAU PAGI","TOTO MACAU SIANG","TOTO MACAU SORE",
+  "TOTOMALI","TOTOMALI1530","TOTOMALI2030","TOTOMALI2330"
+];
+
+const TABS={
+  diskon:{label:'Diskon',cards:[
+    {id:'d5d',name:'Diskon 5D',diskon:38,hadiah:50000},
+    {id:'d4d',name:'Diskon 4D',diskon:20,hadiah:7000},
+    {id:'d3d',name:'Diskon 3D',diskon:20,hadiah:750},
+    {id:'d2d',name:'Diskon 2D',diskon:20,hadiah:75},
+  ]},
+  betfull:{label:'Bet Full',cards:[
+    {id:'bf5d',name:'Bet Full 5D',diskon:0,hadiah:88000},
+    {id:'bf4d',name:'Bet Full 4D',diskon:0,hadiah:10000},
+    {id:'bf3d',name:'Bet Full 3D',diskon:0,hadiah:1000},
+    {id:'bf2d',name:'Bet Full 2D',diskon:0,hadiah:100},
+  ]},
+  tepat:{label:'Tepat & BB',cards:[
+    {id:'t5d',name:'5D Tepat',diskon:0,hadiah:50000},
+    {id:'bb5d',name:'5D BB',diskon:0,hadiah:350},
+    {id:'t4d',name:'4D Tepat',diskon:0,hadiah:5000},
+    {id:'bb4d',name:'4D BB',diskon:0,hadiah:180},
+    {id:'t3d',name:'3D Tepat',diskon:0,hadiah:500},
+    {id:'bb3d',name:'3D BB',diskon:0,hadiah:75},
+    {id:'t2d',name:'2D Tepat',diskon:0,hadiah:80},
+    {id:'bb2d',name:'2D BB',diskon:0,hadiah:15},
+  ]},
+  lainnya:{label:'Lainnya',cards:[
+    {id:'cb',name:'Colok Bebas',diskon:6,hadiah:0.9},
+    {id:'cb2d2',name:'Colok Bebas 2D (2)',diskon:10,hadiah:4},
+    {id:'cb2d3',name:'Colok Bebas 2D (3)',diskon:10,hadiah:6},
+    {id:'cb2d4',name:'Colok Bebas 2D (4)',diskon:10,hadiah:20},
+    {id:'cb2d5',name:'Colok Bebas 2D (5)',diskon:10,hadiah:200},
+    {id:'cb4d4',name:'Colok Bebas 4D (4)',diskon:10,hadiah:50},
+    {id:'cb4d5',name:'Colok Bebas 4D (5)',diskon:10,hadiah:200},
+    {id:'cn3',name:'Colok Naga (3)',diskon:10,hadiah:12},
+    {id:'cn4',name:'Colok Naga (4)',diskon:10,hadiah:30},
+    {id:'cn5',name:'Colok Naga (5)',diskon:10,hadiah:125},
+    {id:'cj',name:'Colok Jitu',diskon:6,hadiah:8},
+    {id:'tt',name:'Tengah Tepi',diskon:2,hadiah:null,kei:-2.2},
+    {id:'dgk',name:'Dasar Genap – Kecil',diskon:2,hadiah:null,kei:10},
+    {id:'dgb',name:'Dasar Ganjil – Besar',diskon:2,hadiah:null,kei:-25},
+    {id:'5050',name:'50 – 50',diskon:2,hadiah:null,kei:-2.2},
+    {id:'shio',name:'Shio',diskon:5,hadiah:9.5},
+    {id:'kom',name:'Kombinasi',diskon:8,hadiah:2.7},
+  ]}
 };
 
-let currentPasaran='TOTO MACAU 4D';
-let modalData={};
+let activePasaran=null,activeTab='diskon',copyText='';
+const fmt=n=>Math.round(n).toLocaleString('id-ID');
 
-function updatePasaran(){
-  const v=document.getElementById('pasaranSelect').value;
-  if(v) currentPasaran=v;
-}
-
-// --- RENDER CARDS ---
-function renderCards(tab, gridId){
-  const grid=document.getElementById(gridId);
-  grid.innerHTML='';
-  CARDS[tab].forEach((c,i)=>{
-    const meta = c.hadiah!==null
-      ? `Diskon: <span>${c.diskon}%</span> | Hadiah: <span>x${c.hadiah}</span>`
-      : `Diskon: <span>${c.diskon}%</span> | Kei: <span>${c.kei}%</span>`;
-    const card=document.createElement('div');
-    card.className='calc-card';
-    card.style.animationDelay=(i*0.04)+'s';
-    card.innerHTML=`
-      <div class="card-title">${c.title}</div>
-      <div class="card-meta">${meta}</div>
-      <div class="input-row">
-        <span class="input-label">Nominal</span>
-        <input class="bet-input" type="number" id="inp-${c.id}" placeholder="Masukkan nominal..." min="1">
-      </div>
-      <div class="card-btns">
-        <button class="btn-hitung" onclick="hitung('${c.id}','${tab}')">✦ HITUNG</button>
-        <button class="btn-reset" onclick="resetCard('${c.id}')">RESET</button>
-      </div>
-    `;
-    grid.appendChild(card);
+function renderSidebar(filter=''){
+  const list=document.getElementById('pasaranList');
+  list.innerHTML='';
+  const f=filter.trim().toLowerCase();
+  const filtered=ALL_PASARAN.filter(p=>p.toLowerCase().includes(f));
+  if(!filtered.length){list.innerHTML='<div class="no-results">Tidak ditemukan</div>';return;}
+  filtered.forEach(p=>{
+    const el=document.createElement('div');
+    el.className='pasaran-item'+(activePasaran===p?' active':'');
+    el.innerHTML=`<span class="dot"></span>${p}`;
+    el.onclick=()=>activePasaran===p?deselectPasaran():selectPasaran(p);
+    list.appendChild(el);
   });
 }
-renderCards('diskon','grid-diskon');
-renderCards('betfull','grid-betfull');
-renderCards('tepat','grid-tepat');
-renderCards('lainnya','grid-lainnya');
 
-// --- TAB SWITCH ---
-function switchTab(tab, btn){
-  document.querySelectorAll('.tab-content').forEach(el=>el.style.display='none');
-  document.querySelectorAll('.tab-btn').forEach(el=>el.classList.remove('active'));
-  document.getElementById('tab-'+tab).style.display='block';
-  btn.classList.add('active');
+function filterPasaran(){renderSidebar(document.getElementById('searchInput').value)}
+
+function selectPasaran(p){
+  activePasaran=p;
+  document.getElementById('btnDeselect').classList.add('show');
+  renderSidebar(document.getElementById('searchInput').value);
+  renderMain();
 }
 
-// --- HITUNG ---
-function hitung(id, tab){
-  const card=CARDS[tab].find(c=>c.id===id);
+function deselectPasaran(){
+  activePasaran=null;
+  document.getElementById('btnDeselect').classList.remove('show');
+  renderSidebar(document.getElementById('searchInput').value);
+  renderMain();
+}
+
+function renderMain(){
+  const content=document.getElementById('mainContent');
+  if(!activePasaran){
+    content.innerHTML=`<div class="empty-wrap"><div class="empty-box">
+      <div class="empty-icon">♛</div>
+      <div class="empty-title">Belum ada pasaran dipilih</div>
+      <div class="empty-sub">Silakan pilih pasaran dari daftar di sebelah kiri<br>untuk mulai menghitung hadiah</div>
+    </div></div>`;
+    return;
+  }
+
+  const tabsHTML=Object.entries(TABS).map(([key,t])=>
+    `<button class="tab${activeTab===key?' active':''}" onclick="switchTab('${key}')">${t.label}</button>`
+  ).join('');
+
+  let panesHTML='';
+  Object.entries(TABS).forEach(([key,t])=>{
+    const cards=t.cards.map(c=>{
+      const info=c.hadiah!==null
+        ?`Diskon <b>${c.diskon}%</b>&nbsp;·&nbsp;Hadiah <b>×${c.hadiah}</b>`
+        :`Diskon <b>${c.diskon}%</b>&nbsp;·&nbsp;Kei <b>${c.kei>0?'+':''}${c.kei}%</b>`;
+      const badge=c.diskon>0?`D${c.diskon}%`:(c.hadiah!==null?`×${c.hadiah}`:`KEI`);
+      return `<div class="card">
+        <div class="card-head">
+          <span class="card-name">${c.name}</span>
+          <span class="card-badge">${badge}</span>
+        </div>
+        <div class="card-info">${info}</div>
+        <div class="input-row">
+          <input class="inp" type="number" id="inp-${c.id}" placeholder="Masukkan nominal..." min="1"
+            onkeydown="if(event.key==='Enter')hitung('${c.id}','${key}')">
+          <button class="btn-calc" onclick="hitung('${c.id}','${key}')">Hitung</button>
+        </div>
+      </div>`;
+    }).join('');
+    panesHTML+=`<div class="tab-pane${activeTab===key?' active':''}" id="pane-${key}"><div class="cards-grid">${cards}</div></div>`;
+  });
+
+  content.innerHTML=`
+    <div class="topbar">
+      <span class="topbar-label">Pasaran</span>
+      <span class="pasaran-badge">${activePasaran}</span>
+    </div>
+    <div class="tabs">${tabsHTML}</div>
+    <div class="cards-wrap">${panesHTML}</div>`;
+}
+
+function switchTab(key){activeTab=key;renderMain()}
+
+function hitung(id,tabKey){
+  if(!activePasaran)return;
+  const card=TABS[tabKey].cards.find(c=>c.id===id);
   if(!card)return;
-  const input=document.getElementById('inp-'+id);
-  const bet=parseFloat(input.value);
-  if(!bet||bet<=0){input.focus();input.style.borderColor='#e24b4a';setTimeout(()=>input.style.borderColor='',800);return;}
-
-  const diskonAmt = bet*(card.diskon/100);
-  const bayar = bet - diskonAmt;
-  let menang=0, descHtml='';
-
-  if(card.hadiah!==null){
-    menang = bet * card.hadiah;
-    const tipe = card.kei!==undefined?'KEI':'DISKON';
-    descHtml=`Jika Anda memasang <strong>${card.title.replace('DISKON ','DISKON ').replace('BET FULL ','BET FULL ')}</strong> pada pasaran <strong>${currentPasaran}</strong> dengan nominal taruhan <strong>Rp ${fmt(bet)}</strong>, maka hadiah yang Anda dapatkan adalah <span class="highlight">Rp ${fmt(menang)}</span> (Diskon: ${card.diskon}% | Hadiah: x${card.hadiah}) <em>ya bosku</em>`;
-  } else {
-    // Kei based
-    menang = bayar + bayar*(Math.abs(card.kei)/100)*(card.kei>0?1:-1);
-    descHtml=`Jika Anda memasang <strong>${card.title}</strong> pada pasaran <strong>${currentPasaran}</strong> dengan nominal taruhan <strong>Rp ${fmt(bet)}</strong>, Kei yang berlaku adalah <span class="highlight">${card.kei}%</span> (Diskon: ${card.diskon}%) <em>ya bosku</em>`;
-  }
-
-  modalData={text:`Pasang ${card.title} pasaran ${currentPasaran} nominal Rp ${fmt(bet)}, bayar Rp ${fmt(bayar)}, menang Rp ${fmt(menang)}`};
-
-  document.getElementById('modalTitle').textContent=currentPasaran;
-  document.getElementById('modalType').textContent=card.title;
-  document.getElementById('modalDesc').innerHTML=descHtml;
-  document.getElementById('modalBayar').textContent='Rp '+fmt(bayar);
-  document.getElementById('modalMenang').textContent='Rp '+fmt(menang);
-  document.getElementById('modalOverlay').classList.add('show');
-}
-
-function fmt(n){
-  return Math.round(n).toLocaleString('id-ID');
-}
-
-function resetCard(id){
   const inp=document.getElementById('inp-'+id);
-  if(inp)inp.value='';
-}
-
-function closeModal(){
-  document.getElementById('modalOverlay').classList.remove('show');
-}
-
-function closeModalOut(e){
-  if(e.target===document.getElementById('modalOverlay'))closeModal();
-}
-
-function salinHasil(){
-  if(navigator.clipboard&&modalData.text){
-    navigator.clipboard.writeText(modalData.text);
-    const btn=document.querySelector('.btn-salin');
-    const orig=btn.innerHTML;
-    btn.innerHTML='✓ TERSALIN';
-    btn.style.color='#3B6D11';
-    setTimeout(()=>{btn.innerHTML=orig;btn.style.color='';},1800);
+  const bet=parseFloat(inp.value);
+  if(!bet||bet<=0){
+    inp.focus();
+    inp.style.borderColor='var(--red)';
+    inp.style.background='rgba(224,82,82,0.07)';
+    setTimeout(()=>{inp.style.borderColor='';inp.style.background='';},800);
+    return;
   }
+
+  const bayar=bet*(1-card.diskon/100);
+  const menang=card.hadiah!==null ? bet*card.hadiah : bayar*(1+card.kei/100);
+
+  // PK sentence
+  let pkHTML,plainCopy;
+  if(card.hadiah!==null){
+    pkHTML=`Jika Anda memasang <span class="pk-name">${card.name}</span> dengan bettingan <span class="pk-bet">Rp ${fmt(bet)}</span>, maka hadiah yang Anda dapatkan adalah <span class="pk-menang">Rp ${fmt(menang)}</span> <span class="pk-mult">(betingan&nbsp;:&nbsp;×${card.hadiah})</span> <span class="pk-bosku">ya bosku</span>`;
+    plainCopy=`Jika Anda memasang ${card.name} dengan bettingan Rp ${fmt(bet)}, maka hadiah yang Anda dapatkan adalah Rp ${fmt(menang)} (betingan : x${card.hadiah}) ya bosku`;
+  } else {
+    pkHTML=`Jika Anda memasang <span class="pk-name">${card.name}</span> dengan bettingan <span class="pk-bet">Rp ${fmt(bet)}</span>, hasil setelah kei <span class="pk-mult">(${card.kei>0?'+':''}${card.kei}%)</span> adalah <span class="pk-menang">Rp ${fmt(menang)}</span> <span class="pk-bosku">ya bosku</span>`;
+    plainCopy=`Jika Anda memasang ${card.name} dengan bettingan Rp ${fmt(bet)}, hasil setelah kei (${card.kei>0?'+':''}${card.kei}%) adalah Rp ${fmt(menang)} ya bosku`;
+  }
+  copyText=plainCopy;
+
+  document.getElementById('mPasaran').textContent=activePasaran;
+  document.getElementById('mType').textContent=card.name;
+  document.getElementById('pkBox').innerHTML=pkHTML;
+  document.getElementById('mBet').textContent='Rp '+fmt(bet);
+  document.getElementById('mBayar').textContent='Rp '+fmt(bayar);
+  document.getElementById('mMenang').textContent='Rp '+fmt(menang);
+  document.getElementById('mCopyText').textContent=copyText;
+  document.getElementById('rowBayar').style.display=card.diskon>0?'':'none';
+  document.getElementById('overlay').classList.add('show');
 }
 
-// Enter to calculate
-document.addEventListener('keydown',e=>{
-  if(e.key==='Escape')closeModal();
-});
+function closeModal(){document.getElementById('overlay').classList.remove('show')}
+function closeOutside(e){if(e.target===document.getElementById('overlay'))closeModal()}
+function salin(){
+  if(!copyText)return;
+  const btn=document.getElementById('btnCopy');
+  navigator.clipboard.writeText(copyText).then(()=>{
+    btn.textContent='✓ DISALIN';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='SALIN';btn.classList.remove('copied');},2000);
+  });
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+renderSidebar();
+renderMain();
 </script>
 </body>
 </html>
