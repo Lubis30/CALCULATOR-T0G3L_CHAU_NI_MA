@@ -17,9 +17,11 @@
   --gold:#e8a020;
   --gold2:#f5b340;
   --gold-dim:rgba(232,160,32,0.12);
-  --gold-border:rgba(232,160,32,0.28);
+  --gold-border:rgba(232,160,32,0.3);
   --green:#22c55e;
+  --green-dim:rgba(34,197,94,0.08);
   --blue:#4f8ef7;
+  --blue-dim:rgba(79,142,247,0.08);
   --text:#e2e8f4;
   --text2:#8896ae;
   --text3:#525f75;
@@ -27,150 +29,251 @@
 }
 html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px}
 
+/* NAV */
 nav{
-  position:sticky;top:0;z-index:100;
-  background:rgba(12,15,20,0.96);border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:200;
+  background:rgba(12,15,20,0.97);border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 20px;height:48px;backdrop-filter:blur(8px);
+  padding:0 18px;height:50px;backdrop-filter:blur(10px);
 }
-.brand{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#fff}
-.brand-icon{color:var(--gold);font-size:18px}
-.brand b{color:var(--gold)}
-.brand span{color:var(--text2);font-weight:400}
-.clock{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:var(--text3);letter-spacing:2px;
-  background:var(--surface2);padding:4px 10px;border-radius:5px;border:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:9px}
+.brand-icon{font-size:20px;color:var(--gold);line-height:1}
+.brand-text{font-size:14px;font-weight:700;color:#fff;letter-spacing:.3px}
+.brand-text span{color:var(--gold)}
+.clock{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text3);letter-spacing:2px;
+  background:var(--surface2);padding:5px 11px;border-radius:5px;border:1px solid var(--border)}
 
-.layout{display:flex;height:calc(100vh - 48px)}
+/* LAYOUT */
+.layout{display:flex;height:calc(100vh - 50px);overflow:hidden}
 
 /* SIDEBAR */
-.sidebar{width:220px;min-width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
-.sb-hdr{padding:11px 13px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.sb-hdr-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3)}
-.btn-deselect{padding:3px 8px;background:transparent;border:1px solid var(--border2);border-radius:4px;
-  color:var(--text3);font-size:9px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;
-  cursor:pointer;transition:all .12s;display:none}
-.btn-deselect.show{display:block}
-.btn-deselect:hover{border-color:var(--red);color:var(--red)}
-.sb-search{padding:8px 10px;border-bottom:1px solid var(--border)}
-.sb-search input{width:100%;padding:7px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;
-  color:var(--text);font-size:12px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s}
+.sidebar{
+  width:216px;min-width:216px;
+  background:var(--surface);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.sb-top{
+  padding:10px 12px 8px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.sb-top-label{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--text3)}
+.btn-clear{
+  padding:2px 7px;background:transparent;border:1px solid var(--border2);border-radius:3px;
+  color:var(--text3);font-size:9px;font-weight:600;cursor:pointer;transition:all .12s;
+  display:none;font-family:'Inter',sans-serif;
+}
+.btn-clear.show{display:block}
+.btn-clear:hover{border-color:var(--red);color:var(--red)}
+
+/* Tanpa Pasaran button */
+.tanpa-wrap{padding:8px 10px;border-bottom:1px solid var(--border);flex-shrink:0}
+.btn-tanpa{
+  width:100%;padding:8px 10px;background:transparent;border:1px solid var(--border);border-radius:6px;
+  color:var(--text2);font-size:11px;font-weight:600;letter-spacing:.5px;cursor:pointer;
+  font-family:'Inter',sans-serif;transition:all .12s;display:flex;align-items:center;gap:7px;
+  text-align:left;
+}
+.btn-tanpa:hover{border-color:var(--border2);color:var(--text);background:var(--surface2)}
+.btn-tanpa.active{background:rgba(79,142,247,0.1);border-color:rgba(79,142,247,0.35);color:var(--blue)}
+.btn-tanpa .ti{font-size:13px}
+
+/* Search */
+.sb-search{padding:8px 10px;border-bottom:1px solid var(--border);flex-shrink:0}
+.sb-search input{
+  width:100%;padding:7px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;
+  color:var(--text);font-size:12px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s;
+}
 .sb-search input:focus{border-color:var(--gold)}
 .sb-search input::placeholder{color:var(--text3)}
-.pasaran-list{flex:1;overflow-y:auto;padding:5px}
-.pasaran-item{padding:7px 10px;border-radius:5px;cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);
-  transition:all .12s;display:flex;align-items:center;gap:8px;margin-bottom:1px;user-select:none}
-.pasaran-item:hover{background:var(--surface2);color:var(--text)}
-.pasaran-item.active{background:var(--gold-dim);color:var(--gold);font-weight:600}
-.pasaran-item .dot{width:5px;height:5px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:background .12s}
-.pasaran-item.active .dot{background:var(--gold)}
-.no-results{padding:20px 12px;text-align:center;font-size:11px;color:var(--text3)}
+.sb-section-label{padding:8px 12px 4px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3)}
+.pasaran-list{flex:1;overflow-y:auto;padding:4px 6px 8px}
+.p-item{
+  padding:7px 10px;border-radius:5px;cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);
+  transition:all .12s;display:flex;align-items:center;gap:7px;margin-bottom:1px;user-select:none;
+}
+.p-item:hover{background:var(--surface2);color:var(--text)}
+.p-item.active{background:var(--gold-dim);color:var(--gold);font-weight:600}
+.p-item .dot{width:5px;height:5px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:background .12s}
+.p-item.active .dot{background:var(--gold)}
+.no-result{padding:18px 10px;text-align:center;font-size:11px;color:var(--text3)}
 
-/* CONTENT */
-.content{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+/* MAIN */
+.main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+
+/* EMPTY */
 .empty-wrap{flex:1;display:flex;align-items:center;justify-content:center}
-.empty-box{text-align:center;padding:40px 24px}
-.empty-icon{font-size:36px;opacity:.18;margin-bottom:14px}
-.empty-title{font-size:15px;font-weight:600;color:var(--text2);margin-bottom:6px}
+.empty-box{text-align:center;max-width:280px;padding:20px}
+.empty-icon{font-size:34px;opacity:.15;margin-bottom:16px}
+.empty-title{font-size:15px;font-weight:600;color:var(--text2);margin-bottom:8px}
 .empty-sub{font-size:12px;color:var(--text3);line-height:1.7}
+.empty-hint{
+  margin-top:16px;padding:10px 14px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;font-size:11px;color:var(--text3);line-height:1.6;text-align:left;
+}
+.empty-hint b{color:var(--text2)}
 
-.topbar{padding:10px 18px;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0;display:flex;align-items:center;gap:10px}
-.topbar-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)}
-.pasaran-badge{background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);
-  padding:4px 12px;border-radius:4px;font-size:12px;font-weight:700;letter-spacing:.5px}
+/* TOPBAR */
+.topbar{
+  padding:10px 18px;border-bottom:1px solid var(--border);
+  background:var(--surface);flex-shrink:0;
+  display:flex;align-items:center;gap:10px;
+}
+.topbar-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3)}
+.badge-pasaran{
+  background:var(--gold-dim);border:1px solid var(--gold-border);
+  color:var(--gold);padding:4px 12px;border-radius:4px;font-size:12px;font-weight:700;letter-spacing:.5px;
+}
+.badge-tanpa{
+  background:var(--blue-dim);border:1px solid rgba(79,142,247,0.3);
+  color:var(--blue);padding:4px 12px;border-radius:4px;font-size:12px;font-weight:700;letter-spacing:.5px;
+}
 
+/* TABS */
 .tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface);padding:0 18px;flex-shrink:0}
-.tab{padding:9px 14px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+.tab{
+  padding:9px 14px;font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;
   color:var(--text3);background:transparent;border:none;cursor:pointer;
-  border-bottom:2px solid transparent;transition:all .15s;font-family:'Inter',sans-serif}
+  border-bottom:2px solid transparent;transition:all .15s;font-family:'Inter',sans-serif;
+}
 .tab:hover{color:var(--text2)}
 .tab.active{color:var(--gold);border-bottom-color:var(--gold)}
 
+/* CARDS */
 .cards-wrap{padding:14px 18px;flex:1}
 .tab-pane{display:none}
 .tab-pane.active{display:block}
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:9px}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(225px,1fr));gap:9px}
 
-.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:13px 14px;transition:border-color .15s,box-shadow .15s}
-.card:hover{border-color:var(--border2);box-shadow:0 2px 12px rgba(0,0,0,.3)}
+/* CARD */
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  padding:13px 14px;transition:border-color .15s,box-shadow .15s;
+}
+.card:hover{border-color:var(--border2);box-shadow:0 2px 14px rgba(0,0,0,.3)}
 .card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
 .card-name{font-size:13px;font-weight:700;color:var(--text)}
-.card-badge{font-size:9px;font-weight:700;letter-spacing:.5px;padding:2px 6px;border-radius:3px;background:var(--surface3);color:var(--text3);text-transform:uppercase}
+.card-badge{
+  font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;
+  background:var(--surface3);color:var(--text3);text-transform:uppercase;letter-spacing:.5px;
+}
 .card-info{font-size:11px;color:var(--text3);margin-bottom:10px;line-height:1.5}
 .card-info b{color:var(--text2)}
-.input-row{display:flex;gap:6px;align-items:stretch}
-.inp{flex:1;padding:8px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;
-  color:var(--text);font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s,background .15s;min-width:0}
+.input-row{display:flex;gap:6px}
+.inp{
+  flex:1;padding:8px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;
+  color:var(--text);font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:all .15s;min-width:0;
+}
 .inp:focus{border-color:var(--gold)}
 .inp::placeholder{color:var(--text3);font-size:12px}
-.inp::-webkit-outer-spin-button,.inp::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.inp::-webkit-outer-spin-button,.inp::-webkit-inner-spin-button{-webkit-appearance:none}
 .inp[type=number]{-moz-appearance:textfield}
-.btn-calc{padding:8px 14px;background:var(--gold);border:none;border-radius:5px;color:#000;font-size:11px;
-  font-weight:700;letter-spacing:.5px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .12s;white-space:nowrap}
+.btn-calc{
+  padding:8px 13px;background:var(--gold);border:none;border-radius:5px;
+  color:#000;font-size:11px;font-weight:700;letter-spacing:.5px;
+  cursor:pointer;font-family:'Inter',sans-serif;transition:all .12s;white-space:nowrap;
+}
 .btn-calc:hover{background:var(--gold2);transform:translateY(-1px)}
-.btn-calc:active{transform:translateY(0)}
+.btn-calc:active{transform:none}
 
-/* MODAL */
-.overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(5,7,14,.82);
-  backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:16px}
-.overlay.show{display:flex;animation:fadeIn .15s ease}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.modal{background:var(--surface);border:1px solid var(--border2);border-radius:12px;
-  width:100%;max-width:430px;overflow:hidden;
-  box-shadow:0 32px 80px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.03);
-  animation:slideUp .18s ease}
-@keyframes slideUp{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+/* MODAL OVERLAY */
+.overlay{
+  display:none;position:fixed;inset:0;z-index:300;
+  background:rgba(4,6,12,.85);backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;padding:16px;
+}
+.overlay.show{display:flex;animation:oFade .15s ease}
+@keyframes oFade{from{opacity:0}to{opacity:1}}
 
-.modal-head{padding:14px 18px;border-bottom:1px solid var(--border);
-  display:flex;align-items:flex-start;justify-content:space-between;background:var(--surface2)}
-.m-left{}
-.m-pasaran-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:4px}
-.m-pasaran-val{display:inline-block;background:var(--gold-dim);border:1px solid var(--gold-border);
-  color:var(--gold);padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:.5px}
-.m-type{font-size:17px;font-weight:700;color:var(--text);margin-top:7px}
-.btn-close{background:var(--surface3);border:1px solid var(--border2);border-radius:6px;
+/* MODAL BOX */
+.modal{
+  background:var(--surface);border:1px solid var(--border2);border-radius:13px;
+  width:100%;max-width:440px;overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,0,.8);
+  animation:mSlide .18s ease;
+}
+@keyframes mSlide{from{transform:translateY(12px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+.modal-head{
+  padding:14px 18px 12px;border-bottom:1px solid var(--border);
+  background:var(--surface2);
+  display:flex;align-items:flex-start;justify-content:space-between;
+}
+.mh-left{}
+.mh-row1{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.mh-pasaran-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3)}
+.mh-pasaran-val{
+  background:var(--gold-dim);border:1px solid var(--gold-border);
+  color:var(--gold);padding:2px 9px;border-radius:3px;font-size:11px;font-weight:700;letter-spacing:.5px;
+}
+.mh-pasaran-val.tanpa{
+  background:var(--blue-dim);border-color:rgba(79,142,247,0.3);color:var(--blue);
+}
+.mh-type{font-size:17px;font-weight:700;color:var(--text);line-height:1.2}
+.mh-meta{font-size:11px;color:var(--text3);margin-top:3px}
+.mh-meta b{color:var(--text2)}
+.btn-x{
+  background:var(--surface3);border:1px solid var(--border2);border-radius:6px;
   width:28px;height:28px;min-width:28px;color:var(--text3);cursor:pointer;font-size:13px;
-  display:flex;align-items:center;justify-content:center;transition:all .12s}
-.btn-close:hover{color:var(--text);border-color:rgba(255,255,255,.15)}
+  display:flex;align-items:center;justify-content:center;transition:all .12s;
+}
+.btn-x:hover{color:var(--text);border-color:rgba(255,255,255,.15)}
 
 .modal-body{padding:15px 18px 18px}
 
-/* PK sentence box */
-.pk-box{background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--gold);
-  border-radius:6px;padding:12px 14px;margin-bottom:13px;font-size:13px;color:var(--text2);line-height:1.7}
-.pk-box .pk-name{color:#fff;font-weight:700}
-.pk-box .pk-bet{color:var(--blue);font-weight:700}
-.pk-box .pk-menang{color:var(--green);font-weight:700}
-.pk-box .pk-mult{color:var(--text3);font-size:12px}
-.pk-box .pk-bosku{color:var(--gold);font-weight:700;font-style:italic}
+/* PK BOX — the "sentence" result */
+.pk-box{
+  border:1px solid var(--border);border-left:3px solid var(--gold);
+  border-radius:6px;padding:13px 15px;margin-bottom:13px;
+  background:var(--surface2);font-size:13px;line-height:1.75;color:var(--text2);
+}
+.pk-type{color:#fff;font-weight:700}
+.pk-pct{color:var(--gold);font-weight:600}
+.pk-mult{color:var(--gold);font-weight:600}
+.pk-bet{color:var(--blue);font-weight:700}
+.pk-hadiah{color:var(--green);font-weight:700;font-size:14px}
+.pk-bayar{color:var(--blue);font-weight:700}
+.pk-bosku{color:var(--gold);font-weight:700;font-style:italic}
 
-.result-rows{display:grid;gap:5px;margin-bottom:11px}
-.result-row{display:flex;align-items:center;justify-content:space-between;
-  background:var(--surface2);border-radius:6px;padding:10px 13px;border:1px solid var(--border)}
-.rr-label{font-size:11px;color:var(--text3);font-weight:500}
-.rr-val{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--text)}
-.rr-val.pay{color:var(--blue)}
-.rr-val.win{color:var(--green)}
+/* RESULT ROWS */
+.rrows{display:grid;gap:5px;margin-bottom:12px}
+.rrow{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 13px;
+}
+.rrow-lbl{font-size:11px;color:var(--text3);font-weight:500}
+.rrow-val{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--text)}
+.rrow-val.v-pay{color:var(--blue)}
+.rrow-val.v-win{color:var(--green)}
 
-.copy-row{display:flex;align-items:center;gap:10px;background:var(--surface3);border:1px solid var(--border);
-  border-radius:6px;padding:9px 12px;margin-bottom:11px}
-.copy-txt{flex:1;font-size:11px;color:var(--text3);line-height:1.5;min-width:0;word-break:break-word}
-.btn-copy{flex-shrink:0;padding:5px 10px;background:transparent;border:1px solid var(--border2);border-radius:4px;
-  color:var(--text3);font-size:10px;font-weight:600;letter-spacing:.5px;font-family:'Inter',sans-serif;
-  cursor:pointer;transition:all .12s;white-space:nowrap}
+/* COPY */
+.copy-bar{
+  display:flex;align-items:center;gap:9px;
+  background:var(--surface3);border:1px solid var(--border);border-radius:6px;
+  padding:9px 12px;margin-bottom:11px;
+}
+.copy-txt{flex:1;font-size:11px;color:var(--text3);line-height:1.55;min-width:0;word-break:break-word}
+.btn-copy{
+  flex-shrink:0;padding:5px 10px;background:transparent;border:1px solid var(--border2);border-radius:4px;
+  color:var(--text3);font-size:10px;font-weight:600;font-family:'Inter',sans-serif;
+  cursor:pointer;transition:all .12s;white-space:nowrap;
+}
 .btn-copy:hover{border-color:var(--gold);color:var(--gold)}
-.btn-copy.copied{border-color:var(--green);color:var(--green)}
+.btn-copy.ok{border-color:var(--green);color:var(--green)}
 
-.btn-tutup{width:100%;padding:10px;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;
+.btn-tutup{
+  width:100%;padding:10px;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;
   color:var(--text2);font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
-  cursor:pointer;font-family:'Inter',sans-serif;transition:all .12s}
+  cursor:pointer;font-family:'Inter',sans-serif;transition:all .12s;
+}
 .btn-tutup:hover{border-color:var(--border);color:var(--text)}
 
-::-webkit-scrollbar{width:4px;height:4px}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 
-@media(max-width:640px){
-  .sidebar{width:170px;min-width:170px}
+@media(max-width:600px){
+  .sidebar{width:160px;min-width:160px}
   .cards-grid{grid-template-columns:1fr}
 }
 </style>
@@ -179,56 +282,72 @@ nav{
 
 <nav>
   <div class="brand">
-    <span class="brand-icon">♛</span>
-    <b>Calculator</b>&nbsp;<span>Lubis</span>
+    <div class="brand-icon">♛</div>
+    <div class="brand-text"><span>Calculator</span> Lubis</div>
   </div>
   <div class="clock" id="clock">--:--:--</div>
 </nav>
 
 <div class="layout">
+
+  <!-- SIDEBAR -->
   <div class="sidebar">
-    <div class="sb-hdr">
-      <span class="sb-hdr-label">Pasaran</span>
-      <button class="btn-deselect" id="btnDeselect" onclick="deselectPasaran()">✕ Hapus</button>
+    <div class="sb-top">
+      <span class="sb-top-label">Pilih Pasaran</span>
+      <button class="btn-clear" id="btnClear" onclick="clearPasaran()">✕ Hapus</button>
     </div>
+
+    <!-- TANPA PASARAN BUTTON -->
+    <div class="tanpa-wrap">
+      <button class="btn-tanpa" id="btnTanpa" onclick="toggleTanpa()">
+        <span class="ti">⚡</span>
+        <span>Tanpa Pasaran</span>
+      </button>
+    </div>
+
     <div class="sb-search">
-      <input type="text" id="searchInput" placeholder="Cari pasaran..." oninput="filterPasaran()">
+      <input type="text" id="sbSearch" placeholder="Cari pasaran..." oninput="filterList()">
     </div>
+    <div class="sb-section-label">Daftar Pasaran</div>
     <div class="pasaran-list" id="pasaranList"></div>
   </div>
 
-  <div class="content" id="mainContent"></div>
+  <!-- MAIN -->
+  <div class="main" id="mainArea"></div>
 </div>
 
 <!-- MODAL -->
-<div class="overlay" id="overlay" onclick="closeOutside(event)">
+<div class="overlay" id="overlay" onclick="closeOut(event)">
   <div class="modal">
     <div class="modal-head">
-      <div class="m-left">
-        <div class="m-pasaran-lbl">Pasaran</div>
-        <div class="m-pasaran-val" id="mPasaran">—</div>
-        <div class="m-type" id="mType">—</div>
+      <div class="mh-left">
+        <div class="mh-row1">
+          <span class="mh-pasaran-lbl">Mode</span>
+          <span class="mh-pasaran-val" id="mMode">—</span>
+        </div>
+        <div class="mh-type" id="mType">—</div>
+        <div class="mh-meta" id="mMeta">—</div>
       </div>
-      <button class="btn-close" onclick="closeModal()">✕</button>
+      <button class="btn-x" onclick="closeModal()">✕</button>
     </div>
     <div class="modal-body">
       <div class="pk-box" id="pkBox"></div>
-      <div class="result-rows">
-        <div class="result-row">
-          <span class="rr-label">Nominal Taruhan</span>
-          <span class="rr-val" id="mBet">—</span>
+      <div class="rrows">
+        <div class="rrow">
+          <span class="rrow-lbl">Nominal Bettingan</span>
+          <span class="rrow-val" id="rBet">—</span>
         </div>
-        <div class="result-row" id="rowBayar">
-          <span class="rr-label">Bayar (setelah diskon)</span>
-          <span class="rr-val pay" id="mBayar">—</span>
+        <div class="rrow" id="rRowBayar">
+          <span class="rrow-lbl">Bayar (setelah diskon)</span>
+          <span class="rrow-val v-pay" id="rBayar">—</span>
         </div>
-        <div class="result-row">
-          <span class="rr-label">Hadiah (jika tembus)</span>
-          <span class="rr-val win" id="mMenang">—</span>
+        <div class="rrow">
+          <span class="rrow-lbl">Hadiah (jika tembus)</span>
+          <span class="rrow-val v-win" id="rMenang">—</span>
         </div>
       </div>
-      <div class="copy-row">
-        <span class="copy-txt" id="mCopyText"></span>
+      <div class="copy-bar">
+        <span class="copy-txt" id="copyTxt"></span>
         <button class="btn-copy" id="btnCopy" onclick="salin()">SALIN</button>
       </div>
       <button class="btn-tutup" onclick="closeModal()">TUTUP</button>
@@ -237,12 +356,14 @@ nav{
 </div>
 
 <script>
+/* ===== CLOCK ===== */
 (function tick(){
-  const p=n=>String(n).padStart(2,'0'),n=new Date();
-  document.getElementById('clock').textContent=`${p(n.getHours())}:${p(n.getMinutes())}:${p(n.getSeconds())}`;
+  const p=n=>String(n).padStart(2,'0'),t=new Date();
+  document.getElementById('clock').textContent=`${p(t.getHours())}:${p(t.getMinutes())}:${p(t.getSeconds())}`;
   setTimeout(tick,1000);
 })();
 
+/* ===== DATA ===== */
 const ALL_PASARAN=[
   "BANGKOK","BANGKOK 0130","BANGKOK 0930",
   "BRUNEI","BRUNEI02","BRUNEI14","BRUNEI21",
@@ -270,104 +391,147 @@ const ALL_PASARAN=[
 
 const TABS={
   diskon:{label:'Diskon',cards:[
-    {id:'d5d',name:'Diskon 5D',diskon:38,hadiah:50000},
-    {id:'d4d',name:'Diskon 4D',diskon:20,hadiah:7000},
-    {id:'d3d',name:'Diskon 3D',diskon:20,hadiah:750},
-    {id:'d2d',name:'Diskon 2D',diskon:20,hadiah:75},
+    {id:'d5d',name:'DISKON 5D',diskon:38,hadiah:50000},
+    {id:'d4d',name:'DISKON 4D',diskon:20,hadiah:7000},
+    {id:'d3d',name:'DISKON 3D',diskon:20,hadiah:750},
+    {id:'d2d',name:'DISKON 2D',diskon:20,hadiah:75},
   ]},
   betfull:{label:'Bet Full',cards:[
-    {id:'bf5d',name:'Bet Full 5D',diskon:0,hadiah:88000},
-    {id:'bf4d',name:'Bet Full 4D',diskon:0,hadiah:10000},
-    {id:'bf3d',name:'Bet Full 3D',diskon:0,hadiah:1000},
-    {id:'bf2d',name:'Bet Full 2D',diskon:0,hadiah:100},
+    {id:'bf5d',name:'BET FULL 5D',diskon:0,hadiah:88000},
+    {id:'bf4d',name:'BET FULL 4D',diskon:0,hadiah:10000},
+    {id:'bf3d',name:'BET FULL 3D',diskon:0,hadiah:1000},
+    {id:'bf2d',name:'BET FULL 2D',diskon:0,hadiah:100},
   ]},
   tepat:{label:'Tepat & BB',cards:[
-    {id:'t5d',name:'5D Tepat',diskon:0,hadiah:50000},
+    {id:'t5d',name:'5D TEPAT',diskon:0,hadiah:50000},
     {id:'bb5d',name:'5D BB',diskon:0,hadiah:350},
-    {id:'t4d',name:'4D Tepat',diskon:0,hadiah:5000},
+    {id:'t4d',name:'4D TEPAT',diskon:0,hadiah:5000},
     {id:'bb4d',name:'4D BB',diskon:0,hadiah:180},
-    {id:'t3d',name:'3D Tepat',diskon:0,hadiah:500},
+    {id:'t3d',name:'3D TEPAT',diskon:0,hadiah:500},
     {id:'bb3d',name:'3D BB',diskon:0,hadiah:75},
-    {id:'t2d',name:'2D Tepat',diskon:0,hadiah:80},
+    {id:'t2d',name:'2D TEPAT',diskon:0,hadiah:80},
     {id:'bb2d',name:'2D BB',diskon:0,hadiah:15},
   ]},
   lainnya:{label:'Lainnya',cards:[
-    {id:'cb',name:'Colok Bebas',diskon:6,hadiah:0.9},
-    {id:'cb2d2',name:'Colok Bebas 2D (2)',diskon:10,hadiah:4},
-    {id:'cb2d3',name:'Colok Bebas 2D (3)',diskon:10,hadiah:6},
-    {id:'cb2d4',name:'Colok Bebas 2D (4)',diskon:10,hadiah:20},
-    {id:'cb2d5',name:'Colok Bebas 2D (5)',diskon:10,hadiah:200},
-    {id:'cb4d4',name:'Colok Bebas 4D (4)',diskon:10,hadiah:50},
-    {id:'cb4d5',name:'Colok Bebas 4D (5)',diskon:10,hadiah:200},
-    {id:'cn3',name:'Colok Naga (3)',diskon:10,hadiah:12},
-    {id:'cn4',name:'Colok Naga (4)',diskon:10,hadiah:30},
-    {id:'cn5',name:'Colok Naga (5)',diskon:10,hadiah:125},
-    {id:'cj',name:'Colok Jitu',diskon:6,hadiah:8},
-    {id:'tt',name:'Tengah Tepi',diskon:2,hadiah:null,kei:-2.2},
-    {id:'dgk',name:'Dasar Genap – Kecil',diskon:2,hadiah:null,kei:10},
-    {id:'dgb',name:'Dasar Ganjil – Besar',diskon:2,hadiah:null,kei:-25},
+    {id:'cb',name:'COLOK BEBAS',diskon:6,hadiah:0.9},
+    {id:'cb2d2',name:'COLOK BEBAS 2D (2)',diskon:10,hadiah:4},
+    {id:'cb2d3',name:'COLOK BEBAS 2D (3)',diskon:10,hadiah:6},
+    {id:'cb2d4',name:'COLOK BEBAS 2D (4)',diskon:10,hadiah:20},
+    {id:'cb2d5',name:'COLOK BEBAS 2D (5)',diskon:10,hadiah:200},
+    {id:'cb4d4',name:'COLOK BEBAS 4D (4)',diskon:10,hadiah:50},
+    {id:'cb4d5',name:'COLOK BEBAS 4D (5)',diskon:10,hadiah:200},
+    {id:'cn3',name:'COLOK NAGA (3)',diskon:10,hadiah:12},
+    {id:'cn4',name:'COLOK NAGA (4)',diskon:10,hadiah:30},
+    {id:'cn5',name:'COLOK NAGA (5)',diskon:10,hadiah:125},
+    {id:'cj',name:'COLOK JITU',diskon:6,hadiah:8},
+    {id:'tt',name:'TENGAH TEPI',diskon:2,hadiah:null,kei:-2.2},
+    {id:'dgk',name:'DASAR GENAP – KECIL',diskon:2,hadiah:null,kei:10},
+    {id:'dgb',name:'DASAR GANJIL – BESAR',diskon:2,hadiah:null,kei:-25},
     {id:'5050',name:'50 – 50',diskon:2,hadiah:null,kei:-2.2},
-    {id:'shio',name:'Shio',diskon:5,hadiah:9.5},
-    {id:'kom',name:'Kombinasi',diskon:8,hadiah:2.7},
+    {id:'shio',name:'SHIO',diskon:5,hadiah:9.5},
+    {id:'kom',name:'KOMBINASI',diskon:8,hadiah:2.7},
   ]}
 };
 
-let activePasaran=null,activeTab='diskon',copyText='';
+/* ===== STATE ===== */
+let activePasaran=null; // string or null
+let modeTanpa=false;    // true = tanpa pasaran mode
+let activeTab='diskon';
+let copyText='';
+
 const fmt=n=>Math.round(n).toLocaleString('id-ID');
 
+/* ===== SIDEBAR ===== */
 function renderSidebar(filter=''){
   const list=document.getElementById('pasaranList');
   list.innerHTML='';
   const f=filter.trim().toLowerCase();
   const filtered=ALL_PASARAN.filter(p=>p.toLowerCase().includes(f));
-  if(!filtered.length){list.innerHTML='<div class="no-results">Tidak ditemukan</div>';return;}
+  if(!filtered.length){list.innerHTML='<div class="no-result">Tidak ditemukan</div>';return;}
   filtered.forEach(p=>{
     const el=document.createElement('div');
-    el.className='pasaran-item'+(activePasaran===p?' active':'');
+    el.className='p-item'+(activePasaran===p&&!modeTanpa?' active':'');
     el.innerHTML=`<span class="dot"></span>${p}`;
-    el.onclick=()=>activePasaran===p?deselectPasaran():selectPasaran(p);
+    el.onclick=()=>selectPasaran(p);
     list.appendChild(el);
   });
 }
 
-function filterPasaran(){renderSidebar(document.getElementById('searchInput').value)}
+function filterList(){renderSidebar(document.getElementById('sbSearch').value)}
 
 function selectPasaran(p){
+  modeTanpa=false;
   activePasaran=p;
-  document.getElementById('btnDeselect').classList.add('show');
-  renderSidebar(document.getElementById('searchInput').value);
+  document.getElementById('btnClear').classList.add('show');
+  document.getElementById('btnTanpa').classList.remove('active');
+  renderSidebar(document.getElementById('sbSearch').value);
   renderMain();
 }
 
-function deselectPasaran(){
+function clearPasaran(){
   activePasaran=null;
-  document.getElementById('btnDeselect').classList.remove('show');
-  renderSidebar(document.getElementById('searchInput').value);
+  modeTanpa=false;
+  document.getElementById('btnClear').classList.remove('show');
+  document.getElementById('btnTanpa').classList.remove('active');
+  renderSidebar(document.getElementById('sbSearch').value);
   renderMain();
 }
 
+function toggleTanpa(){
+  if(modeTanpa){
+    // deactivate
+    modeTanpa=false;
+    document.getElementById('btnTanpa').classList.remove('active');
+    document.getElementById('btnClear').classList.remove('show');
+  } else {
+    modeTanpa=true;
+    activePasaran=null;
+    document.getElementById('btnTanpa').classList.add('active');
+    document.getElementById('btnClear').classList.remove('show');
+  }
+  renderSidebar(document.getElementById('sbSearch').value);
+  renderMain();
+}
+
+/* ===== MAIN RENDER ===== */
 function renderMain(){
-  const content=document.getElementById('mainContent');
-  if(!activePasaran){
-    content.innerHTML=`<div class="empty-wrap"><div class="empty-box">
-      <div class="empty-icon">♛</div>
-      <div class="empty-title">Belum ada pasaran dipilih</div>
-      <div class="empty-sub">Silakan pilih pasaran dari daftar di sebelah kiri<br>untuk mulai menghitung hadiah</div>
-    </div></div>`;
+  const area=document.getElementById('mainArea');
+
+  // Nothing selected
+  if(!activePasaran && !modeTanpa){
+    area.innerHTML=`
+      <div class="empty-wrap"><div class="empty-box">
+        <div class="empty-icon">♛</div>
+        <div class="empty-title">Belum ada pilihan</div>
+        <div class="empty-sub">Pilih pasaran dari daftar kiri,<br>atau gunakan mode <b style="color:var(--blue)">Tanpa Pasaran</b></div>
+        <div class="empty-hint">
+          <b>⚡ Tanpa Pasaran</b> — hitung hadiah tanpa memilih pasaran tertentu, cocok untuk cek perkalian cepat.<br><br>
+          <b>♛ Dengan Pasaran</b> — pilih pasaran dulu lalu hitung sesuai tipe bettingan.
+        </div>
+      </div></div>`;
     return;
   }
 
-  const tabsHTML=Object.entries(TABS).map(([key,t])=>
-    `<button class="tab${activeTab===key?' active':''}" onclick="switchTab('${key}')">${t.label}</button>`
+  const isTanpa=modeTanpa&&!activePasaran;
+
+  // topbar badge
+  const badgeHTML=isTanpa
+    ?`<span class="badge-tanpa">⚡ TANPA PASARAN</span>`
+    :`<span class="badge-pasaran">♛ ${activePasaran}</span>`;
+
+  // tabs
+  const tabsHTML=Object.entries(TABS).map(([k,t])=>
+    `<button class="tab${activeTab===k?' active':''}" onclick="switchTab('${k}')">${t.label}</button>`
   ).join('');
 
+  // panes
   let panesHTML='';
-  Object.entries(TABS).forEach(([key,t])=>{
+  Object.entries(TABS).forEach(([k,t])=>{
     const cards=t.cards.map(c=>{
       const info=c.hadiah!==null
-        ?`Diskon <b>${c.diskon}%</b>&nbsp;·&nbsp;Hadiah <b>×${c.hadiah}</b>`
-        :`Diskon <b>${c.diskon}%</b>&nbsp;·&nbsp;Kei <b>${c.kei>0?'+':''}${c.kei}%</b>`;
-      const badge=c.diskon>0?`D${c.diskon}%`:(c.hadiah!==null?`×${c.hadiah}`:`KEI`);
+        ?`Diskon <b>${c.diskon}%</b> &nbsp;·&nbsp; Hadiah <b>×${c.hadiah}</b>`
+        :`Diskon <b>${c.diskon}%</b> &nbsp;·&nbsp; Kei <b>${c.kei>0?'+':''}${c.kei}%</b>`;
+      const badge=c.diskon>0?`D${c.diskon}%`:(c.hadiah!==null?`×${c.hadiah}`:'KEI');
       return `<div class="card">
         <div class="card-head">
           <span class="card-name">${c.name}</span>
@@ -376,76 +540,129 @@ function renderMain(){
         <div class="card-info">${info}</div>
         <div class="input-row">
           <input class="inp" type="number" id="inp-${c.id}" placeholder="Masukkan nominal..." min="1"
-            onkeydown="if(event.key==='Enter')hitung('${c.id}','${key}')">
-          <button class="btn-calc" onclick="hitung('${c.id}','${key}')">Hitung</button>
+            onkeydown="if(event.key==='Enter')hitung('${c.id}','${k}')">
+          <button class="btn-calc" onclick="hitung('${c.id}','${k}')">Hitung</button>
         </div>
       </div>`;
     }).join('');
-    panesHTML+=`<div class="tab-pane${activeTab===key?' active':''}" id="pane-${key}"><div class="cards-grid">${cards}</div></div>`;
+    panesHTML+=`<div class="tab-pane${activeTab===k?' active':''}" id="pane-${k}">
+      <div class="cards-grid">${cards}</div>
+    </div>`;
   });
 
-  content.innerHTML=`
+  area.innerHTML=`
     <div class="topbar">
-      <span class="topbar-label">Pasaran</span>
-      <span class="pasaran-badge">${activePasaran}</span>
+      <span class="topbar-lbl">${isTanpa?'Mode':'Pasaran'}</span>
+      ${badgeHTML}
     </div>
     <div class="tabs">${tabsHTML}</div>
     <div class="cards-wrap">${panesHTML}</div>`;
 }
 
-function switchTab(key){activeTab=key;renderMain()}
+function switchTab(k){activeTab=k;renderMain()}
 
+/* ===== HITUNG ===== */
 function hitung(id,tabKey){
-  if(!activePasaran)return;
   const card=TABS[tabKey].cards.find(c=>c.id===id);
   if(!card)return;
   const inp=document.getElementById('inp-'+id);
   const bet=parseFloat(inp.value);
   if(!bet||bet<=0){
-    inp.focus();
-    inp.style.borderColor='var(--red)';
-    inp.style.background='rgba(224,82,82,0.07)';
+    inp.focus();inp.style.borderColor='var(--red)';inp.style.background='rgba(224,82,82,0.07)';
     setTimeout(()=>{inp.style.borderColor='';inp.style.background='';},800);
     return;
   }
 
   const bayar=bet*(1-card.diskon/100);
-  const menang=card.hadiah!==null ? bet*card.hadiah : bayar*(1+card.kei/100);
+  const menang=card.hadiah!==null?bet*card.hadiah:bayar*(1+card.kei/100);
 
-  // PK sentence
-  let pkHTML,plainCopy;
+  const isTanpa=modeTanpa&&!activePasaran;
+
+  // ===== PK SENTENCE =====
+  let pkHTML='', pkPlain='';
+
   if(card.hadiah!==null){
-    pkHTML=`Jika Anda memasang <span class="pk-name">${card.name}</span> dengan bettingan <span class="pk-bet">Rp ${fmt(bet)}</span>, maka hadiah yang Anda dapatkan adalah <span class="pk-menang">Rp ${fmt(menang)}</span> <span class="pk-mult">(betingan&nbsp;:&nbsp;×${card.hadiah})</span> <span class="pk-bosku">ya bosku</span>`;
-    plainCopy=`Jika Anda memasang ${card.name} dengan bettingan Rp ${fmt(bet)}, maka hadiah yang Anda dapatkan adalah Rp ${fmt(menang)} (betingan : x${card.hadiah}) ya bosku`;
-  } else {
-    pkHTML=`Jika Anda memasang <span class="pk-name">${card.name}</span> dengan bettingan <span class="pk-bet">Rp ${fmt(bet)}</span>, hasil setelah kei <span class="pk-mult">(${card.kei>0?'+':''}${card.kei}%)</span> adalah <span class="pk-menang">Rp ${fmt(menang)}</span> <span class="pk-bosku">ya bosku</span>`;
-    plainCopy=`Jika Anda memasang ${card.name} dengan bettingan Rp ${fmt(bet)}, hasil setelah kei (${card.kei>0?'+':''}${card.kei}%) adalah Rp ${fmt(menang)} ya bosku`;
-  }
-  copyText=plainCopy;
+    // Format: Jika anda melakukan type bettingan DISKON 5D dengan Diskon : 38%
+    // anda melakukan jumlah bettingan 1,000 maka yang anda harus bayar dengan nominal 620
+    // dan untuk perkaliannya Hadiah : x50000
+    // untuk hadiah yang anda dapatkan jika bettingan anda tepat anda mendapatkan 50.000.000 ya bosku
+    pkHTML =
+       `Jika anda melakukan type bettingan <span class="pk-type">${card.name}</span>`
+      +` dengan <span class="pk-pct">Diskon : ${card.diskon}%</span>`
+      +` anda melakukan jumlah bettingan <span class="pk-bet">Rp ${fmt(bet)}</span>`
+      +` maka yang anda harus bayar dengan nominal <span class="pk-bayar">Rp ${fmt(bayar)}</span>`
+      +` dan untuk perkaliannya <span class="pk-mult">Hadiah : x${card.hadiah}</span>`
+      +` untuk hadiah yang anda dapatkan jika bettingan anda tepat anda mendapatkan`
+      +` <span class="pk-hadiah">Rp ${fmt(menang)}</span>`
+      +` <span class="pk-bosku">ya bosku gass</span>`;
 
-  document.getElementById('mPasaran').textContent=activePasaran;
+    pkPlain =
+       `Jika anda melakukan type bettingan ${card.name} dengan Diskon : ${card.diskon}%`
+      +` anda melakukan jumlah bettingan Rp ${fmt(bet)}`
+      +` maka yang anda harus bayar dengan nominal Rp ${fmt(bayar)}`
+      +` dan untuk perkaliannya Hadiah : x${card.hadiah}`
+      +` untuk hadiah yang anda dapatkan jika bettingan anda tepat anda mendapatkan Rp ${fmt(menang)} ya bosku gass`;
+
+  } else {
+    pkHTML =
+       `Jika anda melakukan type bettingan <span class="pk-type">${card.name}</span>`
+      +` dengan <span class="pk-pct">Diskon : ${card.diskon}%</span>`
+      +` anda melakukan jumlah bettingan <span class="pk-bet">Rp ${fmt(bet)}</span>`
+      +` maka yang anda harus bayar dengan nominal <span class="pk-bayar">Rp ${fmt(bayar)}</span>`
+      +` dan untuk kei yang berlaku <span class="pk-mult">Kei : ${card.kei>0?'+':''}${card.kei}%</span>`
+      +` maka hasil yang anda dapatkan adalah`
+      +` <span class="pk-hadiah">Rp ${fmt(menang)}</span>`
+      +` <span class="pk-bosku">ya bosku gass</span>`;
+
+    pkPlain =
+       `Jika anda melakukan type bettingan ${card.name} dengan Diskon : ${card.diskon}%`
+      +` anda melakukan jumlah bettingan Rp ${fmt(bet)}`
+      +` maka yang anda harus bayar dengan nominal Rp ${fmt(bayar)}`
+      +` dan untuk kei yang berlaku Kei : ${card.kei>0?'+':''}${card.kei}%`
+      +` maka hasil yang anda dapatkan adalah Rp ${fmt(menang)} ya bosku gass`;
+  }
+
+  // Prepend pasaran if selected
+  if(!isTanpa && activePasaran){
+    pkHTML = `[<span class="pk-pct">${activePasaran}</span>] `+pkHTML;
+    pkPlain = `[${activePasaran}] `+pkPlain;
+  }
+
+  copyText=pkPlain;
+
+  // Modal header
+  const modeLabel=isTanpa?'TANPA PASARAN':activePasaran;
+  const modeClass=isTanpa?'tanpa':'';
+  const metaInfo=card.hadiah!==null
+    ?`Diskon: <b>${card.diskon}%</b> &nbsp;|&nbsp; Hadiah: <b>×${card.hadiah}</b>`
+    :`Diskon: <b>${card.diskon}%</b> &nbsp;|&nbsp; Kei: <b>${card.kei>0?'+':''}${card.kei}%</b>`;
+
+  document.getElementById('mMode').textContent=modeLabel;
+  document.getElementById('mMode').className='mh-pasaran-val'+' '+modeClass;
   document.getElementById('mType').textContent=card.name;
+  document.getElementById('mMeta').innerHTML=metaInfo;
   document.getElementById('pkBox').innerHTML=pkHTML;
-  document.getElementById('mBet').textContent='Rp '+fmt(bet);
-  document.getElementById('mBayar').textContent='Rp '+fmt(bayar);
-  document.getElementById('mMenang').textContent='Rp '+fmt(menang);
-  document.getElementById('mCopyText').textContent=copyText;
-  document.getElementById('rowBayar').style.display=card.diskon>0?'':'none';
+  document.getElementById('rBet').textContent='Rp '+fmt(bet);
+  document.getElementById('rBayar').textContent='Rp '+fmt(bayar);
+  document.getElementById('rMenang').textContent='Rp '+fmt(menang);
+  document.getElementById('copyTxt').textContent=copyText;
+  document.getElementById('rRowBayar').style.display=card.diskon>0?'':'none';
   document.getElementById('overlay').classList.add('show');
 }
 
 function closeModal(){document.getElementById('overlay').classList.remove('show')}
-function closeOutside(e){if(e.target===document.getElementById('overlay'))closeModal()}
+function closeOut(e){if(e.target===document.getElementById('overlay'))closeModal()}
 function salin(){
   if(!copyText)return;
   const btn=document.getElementById('btnCopy');
   navigator.clipboard.writeText(copyText).then(()=>{
-    btn.textContent='✓ DISALIN';btn.classList.add('copied');
-    setTimeout(()=>{btn.textContent='SALIN';btn.classList.remove('copied');},2000);
+    btn.textContent='✓ DISALIN';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='SALIN';btn.classList.remove('ok');},2000);
   });
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
 
+/* ===== INIT ===== */
 renderSidebar();
 renderMain();
 </script>
