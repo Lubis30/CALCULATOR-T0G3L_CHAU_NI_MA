@@ -129,11 +129,11 @@ nav{
 }
 
 /* TABS */
-.tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface);padding:0 18px;flex-shrink:0}
+.tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface);padding:0 18px;flex-shrink:0;overflow-x:auto}
 .tab{
   padding:9px 14px;font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;
   color:var(--text3);background:transparent;border:none;cursor:pointer;
-  border-bottom:2px solid transparent;transition:all .15s;font-family:'Inter',sans-serif;
+  border-bottom:2px solid transparent;transition:all .15s;font-family:'Inter',sans-serif;white-space:nowrap;
 }
 .tab:hover{color:var(--text2)}
 .tab.active{color:var(--gold);border-bottom-color:var(--gold)}
@@ -174,6 +174,12 @@ nav{
 }
 .btn-calc:hover{background:var(--gold2);transform:translateY(-1px)}
 .btn-calc:active{transform:none}
+.btn-reset{
+  padding:8px 11px;background:transparent;border:1px solid var(--border2);border-radius:5px;
+  color:var(--text3);font-size:11px;font-weight:700;letter-spacing:.5px;
+  cursor:pointer;font-family:'Inter',sans-serif;transition:all .12s;white-space:nowrap;
+}
+.btn-reset:hover{border-color:var(--red);color:var(--red)}
 
 /* MODAL OVERLAY */
 .overlay{
@@ -391,45 +397,52 @@ const ALL_PASARAN=[
 
 const TABS={
   diskon:{label:'Diskon',cards:[
-    {id:'d5d',name:'DISKON 5D',diskon:38,hadiah:50000},
-    {id:'d4d',name:'DISKON 4D',diskon:20,hadiah:7000},
-    {id:'d3d',name:'DISKON 3D',diskon:20,hadiah:750},
-    {id:'d2d',name:'DISKON 2D',diskon:20,hadiah:75},
+    {id:'d4d',name:'DISKON 4D',diskon:66.5,hadiah:3000},
+    {id:'d3d',name:'DISKON 3D',diskon:59.5,hadiah:400},
+    {id:'d2d',name:'DISKON 2D',diskon:29.5,hadiah:65},
   ]},
   betfull:{label:'Bet Full',cards:[
-    {id:'bf5d',name:'BET FULL 5D',diskon:0,hadiah:88000},
     {id:'bf4d',name:'BET FULL 4D',diskon:0,hadiah:10000},
     {id:'bf3d',name:'BET FULL 3D',diskon:0,hadiah:1000},
     {id:'bf2d',name:'BET FULL 2D',diskon:0,hadiah:100},
   ]},
+  prize:{label:'Prize',cards:[
+    {id:'p11',name:'PRIZE 1_1',diskon:0,hadiah:6500},
+    {id:'p12',name:'PRIZE 1_2',diskon:0,hadiah:650},
+    {id:'p13',name:'PRIZE 1_3',diskon:0,hadiah:70},
+    {id:'p21',name:'PRIZE 2_1',diskon:0,hadiah:2100},
+    {id:'p22',name:'PRIZE 2_2',diskon:0,hadiah:210},
+    {id:'p23',name:'PRIZE 2_3',diskon:0,hadiah:20},
+    {id:'p31',name:'PRIZE 3_1',diskon:0,hadiah:1100},
+    {id:'p32',name:'PRIZE 3_2',diskon:0,hadiah:110},
+    {id:'p33',name:'PRIZE 3_3',diskon:0,hadiah:8},
+  ]},
   tepat:{label:'Tepat & BB',cards:[
-    {id:'t5d',name:'5D TEPAT',diskon:0,hadiah:50000},
-    {id:'bb5d',name:'5D BB',diskon:0,hadiah:350},
-    {id:'t4d',name:'4D TEPAT',diskon:0,hadiah:5000},
-    {id:'bb4d',name:'4D BB',diskon:0,hadiah:180},
-    {id:'t3d',name:'3D TEPAT',diskon:0,hadiah:500},
-    {id:'bb3d',name:'3D BB',diskon:0,hadiah:75},
-    {id:'t2d',name:'2D TEPAT',diskon:0,hadiah:80},
-    {id:'bb2d',name:'2D BB',diskon:0,hadiah:15},
+    {id:'t4d',name:'4D TEPAT',diskon:0,hadiah:4000},
+    {id:'bb4d',name:'4D BB',diskon:0,hadiah:200},
+    {id:'t3d',name:'3D TEPAT',diskon:0,hadiah:400},
+    {id:'bb3d',name:'3D BB',diskon:0,hadiah:100},
+    {id:'t2d',name:'2D TEPAT',diskon:0,hadiah:70},
+    {id:'bb2d',name:'2D BB',diskon:0,hadiah:20},
   ]},
   lainnya:{label:'Lainnya',cards:[
-    {id:'cb',name:'COLOK BEBAS',diskon:6,hadiah:0.9},
-    {id:'cb2d2',name:'COLOK BEBAS 2D (2)',diskon:10,hadiah:4},
-    {id:'cb2d3',name:'COLOK BEBAS 2D (3)',diskon:10,hadiah:6},
-    {id:'cb2d4',name:'COLOK BEBAS 2D (4)',diskon:10,hadiah:20},
+    {id:'cb',name:'COLOK BEBAS',diskon:6,hadiah:1.5},
+    {id:'cb2d2',name:'COLOK BEBAS 2D (2)',diskon:10,hadiah:7},
+    {id:'cb2d3',name:'COLOK BEBAS 2D (3)',diskon:10,hadiah:11},
+    {id:'cb2d4',name:'COLOK BEBAS 2D (4)',diskon:10,hadiah:18},
     {id:'cb2d5',name:'COLOK BEBAS 2D (5)',diskon:10,hadiah:200},
-    {id:'cb4d4',name:'COLOK BEBAS 4D (4)',diskon:10,hadiah:50},
-    {id:'cb4d5',name:'COLOK BEBAS 4D (5)',diskon:10,hadiah:200},
-    {id:'cn3',name:'COLOK NAGA (3)',diskon:10,hadiah:12},
-    {id:'cn4',name:'COLOK NAGA (4)',diskon:10,hadiah:30},
+    {id:'cn3',name:'COLOK NAGA (3)',diskon:10,hadiah:23},
+    {id:'cn4',name:'COLOK NAGA (4)',diskon:10,hadiah:35},
     {id:'cn5',name:'COLOK NAGA (5)',diskon:10,hadiah:125},
     {id:'cj',name:'COLOK JITU',diskon:6,hadiah:8},
-    {id:'tt',name:'TENGAH TEPI',diskon:2,hadiah:null,kei:-2.2},
+    {id:'tt',name:'TENGAH TEPI',diskon:2,hadiah:null,kei:-3},
     {id:'dgk',name:'DASAR GENAP – KECIL',diskon:2,hadiah:null,kei:10},
     {id:'dgb',name:'DASAR GANJIL – BESAR',diskon:2,hadiah:null,kei:-25},
-    {id:'5050',name:'50 – 50',diskon:2,hadiah:null,kei:-2.2},
+    {id:'5050',name:'50 – 50',diskon:2,hadiah:null,kei:-3},
     {id:'shio',name:'SHIO',diskon:5,hadiah:9.5},
-    {id:'kom',name:'KOMBINASI',diskon:8,hadiah:2.7},
+    {id:'sh',name:'SILANG HOMO',diskon:2,hadiah:null,kei:-3},
+    {id:'kkk',name:'KEMBANG KEMPIS KEMBAR',diskon:2,hadiah:null,kei:-3},
+    {id:'kom',name:'KOMBINASI',diskon:8,hadiah:2.6},
   ]}
 };
 
@@ -439,7 +452,7 @@ let modeTanpa=false;    // true = tanpa pasaran mode
 let activeTab='diskon';
 let copyText='';
 
-const fmt=n=>Math.round(n).toLocaleString('id-ID');
+const fmt=n=>Math.round(n).toLocaleString('en-US');
 
 /* ===== SIDEBAR ===== */
 function renderSidebar(filter=''){
@@ -529,9 +542,9 @@ function renderMain(){
   Object.entries(TABS).forEach(([k,t])=>{
     const cards=t.cards.map(c=>{
       const info=c.hadiah!==null
-        ?`Diskon <b>${c.diskon}%</b> &nbsp;·&nbsp; Hadiah <b>×${c.hadiah}</b>`
+        ?`Diskon <b>${c.diskon}%</b> &nbsp;·&nbsp; Hadiah <b>x${c.hadiah}</b>`
         :`Diskon <b>${c.diskon}%</b> &nbsp;·&nbsp; Kei <b>${c.kei>0?'+':''}${c.kei}%</b>`;
-      const badge=c.diskon>0?`D${c.diskon}%`:(c.hadiah!==null?`×${c.hadiah}`:'KEI');
+      const badge=c.diskon>0?`D${c.diskon}%`:(c.hadiah!==null?`x${c.hadiah}`:'KEI');
       return `<div class="card">
         <div class="card-head">
           <span class="card-name">${c.name}</span>
@@ -542,6 +555,7 @@ function renderMain(){
           <input class="inp" type="number" id="inp-${c.id}" placeholder="Masukkan nominal..." min="1"
             onkeydown="if(event.key==='Enter')hitung('${c.id}','${k}')">
           <button class="btn-calc" onclick="hitung('${c.id}','${k}')">Hitung</button>
+          <button class="btn-reset" onclick="resetInput('${c.id}')">Reset</button>
         </div>
       </div>`;
     }).join('');
@@ -560,6 +574,11 @@ function renderMain(){
 }
 
 function switchTab(k){activeTab=k;renderMain()}
+
+function resetInput(id){
+  const inp=document.getElementById('inp-'+id);
+  if(inp){inp.value='';inp.focus();}
+}
 
 /* ===== HITUNG ===== */
 function hitung(id,tabKey){
@@ -582,10 +601,10 @@ function hitung(id,tabKey){
   let pkHTML='', pkPlain='';
 
   if(card.hadiah!==null){
-    // Format: Jika anda melakukan type bettingan DISKON 5D dengan Diskon : 38%
-    // anda melakukan jumlah bettingan 1,000 maka yang anda harus bayar dengan nominal 620
-    // dan untuk perkaliannya Hadiah : x50000
-    // untuk hadiah yang anda dapatkan jika bettingan anda tepat anda mendapatkan 50.000.000 ya bosku
+    // Jika anda melakukan type bettingan COLOK BEBAS 2D (2) dengan Diskon : 10%
+    // anda melakukan jumlah bettingan 20.000 maka yang anda bayar dengan 18.000
+    // dan untuk perkaliannya Hadiah : x7 untuk hadiah yang anda dapatkan jika
+    // bettingan anda tepat anda mendapatkan 158,000 ya bosku
     pkHTML =
        `Jika anda melakukan type bettingan <span class="pk-type">${card.name}</span>`
       +` dengan <span class="pk-pct">Diskon : ${card.diskon}%</span>`
@@ -634,7 +653,7 @@ function hitung(id,tabKey){
   const modeLabel=isTanpa?'TANPA PASARAN':activePasaran;
   const modeClass=isTanpa?'tanpa':'';
   const metaInfo=card.hadiah!==null
-    ?`Diskon: <b>${card.diskon}%</b> &nbsp;|&nbsp; Hadiah: <b>×${card.hadiah}</b>`
+    ?`Diskon: <b>${card.diskon}%</b> &nbsp;|&nbsp; Hadiah: <b>x${card.hadiah}</b>`
     :`Diskon: <b>${card.diskon}%</b> &nbsp;|&nbsp; Kei: <b>${card.kei>0?'+':''}${card.kei}%</b>`;
 
   document.getElementById('mMode').textContent=modeLabel;
